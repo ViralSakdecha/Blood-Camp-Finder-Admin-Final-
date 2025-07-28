@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'animation_manager.dart';
-import 'auth_page.dart';
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -13,7 +12,8 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin {
+class _ProfilePageState extends State<ProfilePage>
+    with TickerProviderStateMixin {
   String? name;
   String? email;
   String? gender;
@@ -54,13 +54,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       parent: _fadeController,
       curve: Curves.easeInOut,
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _slideController,
-      curve: Curves.easeOutCubic,
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
+        );
   }
 
   @override
@@ -79,8 +76,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
 
     try {
       final uid = currentUser.uid;
-      final userDoc =
-      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get();
 
       if (mounted && userDoc.exists) {
         final data = userDoc.data();
@@ -174,169 +173,178 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       ),
       body: isLoading
           ? const Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF6B6B)),
-        ),
-      )
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF6B6B)),
+              ),
+            )
           : FadeTransition(
-        opacity: _fadeAnimation,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: SlideTransition(
-            position: _slideAnimation,
-            child: Column(
-              children: [
-                // Profile Header
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                        const Color(0xFFFF6B6B).withOpacity(0.3),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
+              opacity: _fadeAnimation,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: SlideTransition(
+                  position: _slideAnimation,
                   child: Column(
                     children: [
+                      // Profile Header
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          shape: BoxShape.circle,
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFFFF6B6B).withOpacity(0.3),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
                         ),
-                        child: const Icon(
-                          Icons.person,
-                          size: 50,
-                          color: Colors.white,
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.person,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              name ?? 'User',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            if (bloodGroup != null && bloodGroup != 'Not set')
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  bloodGroup!,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        name ?? 'User',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      const SizedBox(height: 24),
+
+                      // Personal Information Section
+                      _buildSection(
+                        title: "Personal Information",
+                        icon: Icons.person_outline,
+                        children: [
+                          _infoRow(
+                            Icons.person,
+                            "Full Name",
+                            name ?? 'Not set',
+                          ),
+                          _infoRow(Icons.wc, "Gender", gender ?? 'Not set'),
+                          _infoRow(
+                            Icons.cake,
+                            "Date of Birth",
+                            dob ?? 'Not set',
+                          ),
+                          _infoRow(
+                            Icons.bloodtype,
+                            "Blood Group",
+                            bloodGroup ?? 'Not set',
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 8),
-                      if (bloodGroup != null && bloodGroup != 'Not set')
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
+                      const SizedBox(height: 20),
+
+                      // Contact Information Section
+                      _buildSection(
+                        title: "Contact Information",
+                        icon: Icons.contact_phone,
+                        children: [
+                          _infoRow(Icons.email, "Email", email ?? 'Not set'),
+                          _infoRow(Icons.phone, "Phone", phone ?? 'Not set'),
+                          _infoRow(
+                            Icons.location_on,
+                            "Address",
+                            address ?? 'Not set',
                           ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      // Action Buttons
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          child: Text(
-                            bloodGroup!,
-                            style: const TextStyle(
+                          borderRadius: BorderRadius.circular(25),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFFFF6B6B).withOpacity(0.3),
+                              blurRadius: 15,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: ElevatedButton.icon(
+                          onPressed: logout,
+                          icon: const Icon(Icons.logout, color: Colors.white),
+                          label: const Text(
+                            "Logout",
+                            style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
                             ),
                           ),
                         ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // Personal Information Section
-                _buildSection(
-                  title: "Personal Information",
-                  icon: Icons.person_outline,
-                  children: [
-                    _infoRow(
-                        Icons.person, "Full Name", name ?? 'Not set'),
-                    _infoRow(Icons.wc, "Gender", gender ?? 'Not set'),
-                    _infoRow(
-                        Icons.cake, "Date of Birth", dob ?? 'Not set'),
-                    _infoRow(Icons.bloodtype, "Blood Group",
-                        bloodGroup ?? 'Not set'),
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                // Contact Information Section
-                _buildSection(
-                  title: "Contact Information",
-                  icon: Icons.contact_phone,
-                  children: [
-                    _infoRow(Icons.email, "Email", email ?? 'Not set'),
-                    _infoRow(Icons.phone, "Phone", phone ?? 'Not set'),
-                    _infoRow(Icons.location_on, "Address",
-                        address ?? 'Not set'),
-                  ],
-                ),
-                const SizedBox(height: 32),
-
-                // Action Buttons
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                        const Color(0xFFFF6B6B).withOpacity(0.3),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
                       ),
                     ],
                   ),
-                  child: ElevatedButton.icon(
-                    onPressed: logout,
-                    icon:
-                    const Icon(Icons.logout, color: Colors.white),
-                    label: const Text(
-                      "Logout",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      padding:
-                      const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    ),
-                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
-  Widget _buildSection(
-      {required String title,
-        required IconData icon,
-        required List<Widget> children}) {
+  Widget _buildSection({
+    required String title,
+    required IconData icon,
+    required List<Widget> children,
+  }) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -362,27 +370,31 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight),
-              borderRadius:
-              BorderRadius.vertical(top: Radius.circular(20)),
+                colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      shape: BoxShape.circle),
+                    color: Colors.white.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                  ),
                   child: Icon(icon, color: Colors.white, size: 20),
                 ),
                 const SizedBox(width: 12),
-                Text(title,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -404,9 +416,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: const Color(0xFFFF6B6B).withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 4))
+            color: const Color(0xFFFF6B6B).withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Row(
@@ -415,8 +428,9 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-                color: const Color(0xFFFF6B6B).withOpacity(0.1),
-                shape: BoxShape.circle),
+              color: const Color(0xFFFF6B6B).withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
             child: Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
           ),
           const SizedBox(width: 12),
@@ -424,17 +438,23 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF9E9E9E),
-                        fontWeight: FontWeight.w500)),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF9E9E9E),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(value,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF2E2E2E))),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF2E2E2E),
+                  ),
+                ),
               ],
             ),
           ),

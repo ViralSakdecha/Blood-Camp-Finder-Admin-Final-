@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import '../services/connectivity_service.dart';
 
 class NoInternetScreen extends StatelessWidget {
-  const NoInternetScreen({Key? key}) : super(key: key);
+  const NoInternetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,7 @@ class NoInternetScreen extends StatelessWidget {
               Text(
                 'Please check your internet connection and try again.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey.shade600,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
               ),
               const SizedBox(height: 32),
               ElevatedButton.icon(
@@ -59,7 +56,10 @@ class NoInternetScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
                 ),
               ),
             ],

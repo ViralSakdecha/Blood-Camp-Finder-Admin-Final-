@@ -37,9 +37,9 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
   final TextEditingController registerPasswordController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController confirmPasswordController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -52,7 +52,14 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   String? _selectedBloodGroup;
   final List<String> _genderOptions = ['Male', 'Female', 'Other'];
   final List<String> _bloodGroupOptions = [
-    'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
   ];
 
   @override
@@ -69,13 +76,13 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
       parent: _animationController,
       curve: const Interval(0.3, 1.0, curve: Curves.easeInOut),
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
+          ),
+        );
     _animationController.forward();
 
     // Listener for phone number length
@@ -188,7 +195,11 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   // --- Registration Logic ---
 
   Future<void> _selectDate(BuildContext context) async {
-    final eighteenYearsAgo = DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day);
+    final eighteenYearsAgo = DateTime(
+      DateTime.now().year - 18,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? eighteenYearsAgo,
@@ -234,13 +245,18 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
       return;
     }
 
-    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$')
-        .hasMatch(registerEmailController.text.trim())) {
+    if (!RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$',
+    ).hasMatch(registerEmailController.text.trim())) {
       _showSnackBar("Enter a valid email address");
       return;
     }
 
-    final eighteenYearsAgo = DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day);
+    final eighteenYearsAgo = DateTime(
+      DateTime.now().year - 18,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
     if (_selectedDate!.isAfter(eighteenYearsAgo)) {
       _showSnackBar('You must be at least 18 years old to register.');
       return;
@@ -248,7 +264,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
 
     if (!_validatePhoneNumber(phoneController.text.trim())) {
       _showSnackBar(
-          "Please enter a valid 10-digit Indian phone number starting with 6-9");
+        "Please enter a valid 10-digit Indian phone number starting with 6-9",
+      );
       return;
     }
 
@@ -272,11 +289,11 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
         );
       }
 
-      UserCredential userCredential =
-      await _auth.createUserWithEmailAndPassword(
-        email: registerEmailController.text.trim(),
-        password: registerPasswordController.text.trim(),
-      );
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
+            email: registerEmailController.text.trim(),
+            password: registerPasswordController.text.trim(),
+          );
 
       String uid = userCredential.user!.uid;
 
@@ -299,8 +316,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage = switch (e.code) {
-        'email-already-in-use' =>
-        "An account with this email already exists.",
+        'email-already-in-use' => "An account with this email already exists.",
         'invalid-email' => "Invalid email format.",
         'weak-password' => "Password is too weak.",
         'network-request-failed' => "No internet connection.",
@@ -342,7 +358,10 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
         keyboardType: keyboardType,
         obscureText: obscureText,
         maxLines: maxLines,
-        style: GoogleFonts.poppins(fontSize: 16, color: const Color(0xFF2E2E2E)),
+        style: GoogleFonts.poppins(
+          fontSize: 16,
+          color: const Color(0xFF2E2E2E),
+        ),
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: GoogleFonts.poppins(color: Colors.grey.shade400),
@@ -384,26 +403,35 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.poppins(color: Colors.grey.shade500, fontSize: 16),
+        labelStyle: GoogleFonts.poppins(
+          color: Colors.grey.shade500,
+          fontSize: 16,
+        ),
         prefixIcon: icon != null
             ? Container(
-          margin: const EdgeInsets.all(12),
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFF6B6B).withOpacity(0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
-        )
+                margin: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFF6B6B).withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
+              )
             : null,
         filled: true,
         fillColor: Colors.white,
-        contentPadding:
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+        ),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+        ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: Color(0xFFFF6B6B), width: 2),
@@ -412,10 +440,15 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
       value: value,
       items: items.map((item) {
         return DropdownMenuItem(
-            value: item,
-            child: Text(item,
-                style: GoogleFonts.poppins(
-                    color: const Color(0xFF2E2E2E), fontSize: 16)));
+          value: item,
+          child: Text(
+            item,
+            style: GoogleFonts.poppins(
+              color: const Color(0xFF2E2E2E),
+              fontSize: 16,
+            ),
+          ),
+        );
       }).toList(),
       onChanged: onChanged,
       dropdownColor: Colors.white,
@@ -425,7 +458,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   }
 
   Widget _buildAuthToggle() {
-    return Container(
+    return SizedBox(
       width: 200,
       child: Column(
         children: [
@@ -438,8 +471,9 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                   duration: const Duration(milliseconds: 500),
                   style: GoogleFonts.poppins(
                     fontSize: 18,
-                    fontWeight:
-                    _currentPage == 0 ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: _currentPage == 0
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                     color: _currentPage == 0
                         ? const Color(0xFFFF6B6B)
                         : const Color(0xFF9E9E9E),
@@ -453,8 +487,9 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                   duration: const Duration(milliseconds: 500),
                   style: GoogleFonts.poppins(
                     fontSize: 18,
-                    fontWeight:
-                    _currentPage == 1 ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: _currentPage == 1
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                     color: _currentPage == 1
                         ? const Color(0xFFFF6B6B)
                         : const Color(0xFF9E9E9E),
@@ -468,8 +503,9 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
           AnimatedAlign(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut,
-            alignment:
-            _currentPage == 0 ? Alignment.centerLeft : Alignment.centerRight,
+            alignment: _currentPage == 0
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
             child: Container(
               width: 100, // Half the width of the parent container
               height: 3,
@@ -511,7 +547,11 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Icon(Icons.bloodtype, size: 60, color: Colors.white),
+                child: const Icon(
+                  Icons.bloodtype,
+                  size: 60,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 20),
               AnimatedSwitcher(
@@ -541,7 +581,10 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
               const SizedBox(height: 8),
               Text(
                 _currentPage == 0 ? "Sign in to continue" : "Join us today",
-                style: GoogleFonts.poppins(fontSize: 16, color: Colors.white.withOpacity(0.9)),
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.9),
+                ),
               ),
             ],
           ),
@@ -578,10 +621,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                               _currentPage = index;
                             });
                           },
-                          children: [
-                            _buildLoginForm(),
-                            _buildRegisterForm(),
-                          ],
+                          children: [_buildLoginForm(), _buildRegisterForm()],
                         ),
                       ),
                     ],
@@ -704,7 +744,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                 color: const Color(0xFFFF6B6B),
               ),
               onPressed: () => setState(
-                      () => _obscureRegisterPassword = !_obscureRegisterPassword),
+                () => _obscureRegisterPassword = !_obscureRegisterPassword,
+              ),
             ),
           ),
           const SizedBox(height: 15),
@@ -721,7 +762,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                 color: const Color(0xFFFF6B6B),
               ),
               onPressed: () => setState(
-                      () => _obscureConfirmPassword = !_obscureConfirmPassword),
+                () => _obscureConfirmPassword = !_obscureConfirmPassword,
+              ),
             ),
           ),
           const SizedBox(height: 30),
@@ -756,26 +798,27 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
         ),
         child: isLoading
             ? const SizedBox(
-          width: 24,
-          height: 24,
-          child: CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 2,
-          ),
-        )
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2,
+                ),
+              )
             : Text(
-          text,
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+                text,
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
       ),
     );
   }
