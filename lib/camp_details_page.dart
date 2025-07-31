@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // 👈 Import Google Fonts
 
 class CampDetailsPage extends StatefulWidget {
   final String title;
@@ -54,7 +55,10 @@ class _CampDetailsPageState extends State<CampDetailsPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Camp Details"),
+        title: Text(
+          "Camp Details",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold), // 👈 Applied font
+        ),
         backgroundColor: Colors.red.shade700,
         foregroundColor: Colors.white,
       ),
@@ -69,19 +73,19 @@ class _CampDetailsPageState extends State<CampDetailsPage>
               children: [
                 Text(
                   widget.title,
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins( // 👈 Applied font
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E2E2E),
+                    color: const Color(0xFF2E2E2E),
                   ),
                 ),
                 const SizedBox(height: 20),
                 _buildDetailCard("📍 Venue", "Rajkot City Center"),
                 _buildDetailCard("📅 Date", "2025-07-10"),
-                _buildDetailCard("💉 Blood Types Needed", "A+, B+, O+"),
+                _buildDetailCard("🩸 Blood Types Needed", "A+, B+, O+"),
                 const SizedBox(height: 30),
                 _buildInfoText(
-                  "📝 Organized by: Indian Red Cross Society",
+                  "🤝 Organized by: Indian Red Cross Society",
                   Colors.red.shade200,
                 ),
                 const SizedBox(height: 10),
@@ -121,7 +125,8 @@ class _CampDetailsPageState extends State<CampDetailsPage>
       ),
       child: Text(
         "$label: $value",
-        style: const TextStyle(fontSize: 18, color: Color(0xFF2E2E2E)),
+        style: GoogleFonts.poppins( // 👈 Applied font
+            fontSize: 18, color: const Color(0xFF2E2E2E)),
       ),
     );
   }
@@ -129,7 +134,7 @@ class _CampDetailsPageState extends State<CampDetailsPage>
   Widget _buildInfoText(String text, Color color) {
     return Text(
       text,
-      style: TextStyle(fontSize: 16, color: color),
+      style: GoogleFonts.poppins(fontSize: 16, color: color), // 👈 Applied font
     );
   }
 }

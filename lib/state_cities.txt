@@ -1,0 +1,60 @@
+Gujarat:
+  - Rajkot
+  - Ahmedabad
+  - Surat
+  - Bhavnagar
+  - Vadodara
+  - Gandhinagar
+  - Mehsana
+
+Delhi:
+  - Delhi
+
+Maharashtra:
+  - Mumbai
+  - Pune
+
+Karnataka:
+  - Bengaluru
+
+Tamil Nadu:
+  - Chennai
+
+West Bengal:
+  - Kolkata
+
+Telangana:
+  - Hyderabad
+
+Rajasthan:
+  - Jaipur
+
+Uttar Pradesh:
+  - Lucknow
+
+Chandigarh:
+  - Chandigarh
+
+Madhya Pradesh:
+  - Indore
+
+Bihar:
+  - Patna
+
+Odisha:
+  - Bhubaneswar
+
+Uttarakhand:
+  - Dehradun
+
+Goa:
+  - Panaji
+
+Assam:
+  - Guwahati
+
+Jharkhand:
+  - Ranchi
+
+Meghalaya:
+  - Shillong

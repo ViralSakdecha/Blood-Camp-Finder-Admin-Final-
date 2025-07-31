@@ -1,4 +1,7 @@
+// lib/about_us_page.dart
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // 👈 Import Google Fonts
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutUsPage extends StatefulWidget {
@@ -15,7 +18,6 @@ class _AboutUsPageState extends State<AboutUsPage>
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
 
-  // Static flag for one-time animation per session
   static bool _hasAnimatedOnce = false;
 
   @override
@@ -26,7 +28,6 @@ class _AboutUsPageState extends State<AboutUsPage>
 
   void _initializeAnimations() {
     if (!_hasAnimatedOnce) {
-      // First visit: Animate normally
       _fadeController = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 1200),
@@ -39,7 +40,6 @@ class _AboutUsPageState extends State<AboutUsPage>
       _slideController.forward();
       _hasAnimatedOnce = true;
     } else {
-      // Subsequent visits: Show content immediately
       _fadeController = AnimationController(vsync: this, value: 1.0);
       _slideController = AnimationController(vsync: this, value: 1.0);
     }
@@ -61,7 +61,6 @@ class _AboutUsPageState extends State<AboutUsPage>
     super.dispose();
   }
 
-  // This method correctly launches URLs
   void _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -70,7 +69,7 @@ class _AboutUsPageState extends State<AboutUsPage>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Could not open $url'),
+            content: Text('Could not open $url', style: GoogleFonts.poppins()),
             backgroundColor: const Color(0xFFFF6B6B),
           ),
         );
@@ -94,14 +93,15 @@ class _AboutUsPageState extends State<AboutUsPage>
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           "About Us",
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
         ),
+        centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: FadeTransition(
@@ -113,7 +113,6 @@ class _AboutUsPageState extends State<AboutUsPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header Section
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -146,22 +145,22 @@ class _AboutUsPageState extends State<AboutUsPage>
                         ),
                       ),
                       const SizedBox(width: 16),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Blood Camp Finder",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               "Connecting donors with those in need",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 color: Colors.white70,
                               ),
@@ -174,39 +173,35 @@ class _AboutUsPageState extends State<AboutUsPage>
                 ),
                 const SizedBox(height: 32),
 
-                // Mission Section
                 _buildModernCard(
                   icon: Icons.track_changes,
                   title: "Our Mission",
                   subtitle: "Making blood donation accessible",
                   content:
-                      "Our mission is to bridge the gap between blood donors and those in need. We aim to create a unified platform where users can find nearby blood banks, participate in donation camps, and help save lives with just a few taps.",
+                  "Our mission is to bridge the gap between blood donors and those in need. We aim to create a unified platform where users can find nearby blood banks, participate in donation camps, and help save lives with just a few taps.",
                 ),
 
                 const SizedBox(height: 20),
 
-                // Team Section Header
-                const Text(
+                Text(
                   "Meet Our Team",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E2E2E),
+                    color: const Color(0xFF2E2E2E),
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   "The developers behind the project",
-                  style: TextStyle(fontSize: 16, color: Color(0xFF9E9E9E)),
+                  style: GoogleFonts.poppins(fontSize: 16, color: const Color(0xFF9E9E9E)),
                 ),
                 const SizedBox(height: 20),
 
-                // Team Members
                 ...teamMembers.map((member) => _buildTeamMemberCard(member)),
 
                 const SizedBox(height: 20),
 
-                // Location Section
                 _buildModernCard(
                   icon: Icons.location_on,
                   title: "Our Headquarters",
@@ -216,7 +211,6 @@ class _AboutUsPageState extends State<AboutUsPage>
 
                 const SizedBox(height: 20),
 
-                // Contact Section
                 _buildModernCard(
                   icon: Icons.alternate_email,
                   title: "Get In Touch",
@@ -226,7 +220,6 @@ class _AboutUsPageState extends State<AboutUsPage>
 
                 const SizedBox(height: 32),
 
-                // Call to Action Section
                 _buildCallToActionSection(),
               ],
             ),
@@ -277,26 +270,26 @@ class _AboutUsPageState extends State<AboutUsPage>
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E2E2E),
+                    color: const Color(0xFF2E2E2E),
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 14,
-                    color: Color(0xFF9E9E9E),
+                    color: const Color(0xFF9E9E9E),
                   ),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   content,
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 15,
-                    color: Color(0xFF666666),
+                    color: const Color(0xFF666666),
                     height: 1.5,
                   ),
                 ),
@@ -348,18 +341,18 @@ class _AboutUsPageState extends State<AboutUsPage>
                   children: [
                     Text(
                       member['name'],
-                      style: const TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2E2E2E),
+                        color: const Color(0xFF2E2E2E),
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       member['role'],
-                      style: const TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 14,
-                        color: Color(0xFF9E9E9E),
+                        color: const Color(0xFF9E9E9E),
                       ),
                     ),
                   ],
@@ -420,10 +413,10 @@ class _AboutUsPageState extends State<AboutUsPage>
                 ),
               ),
               const SizedBox(width: 16),
-              const Expanded(
+              Expanded(
                 child: Text(
                   "Join Our Mission",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -435,7 +428,7 @@ class _AboutUsPageState extends State<AboutUsPage>
           const SizedBox(height: 16),
           Text(
             "Together, we can save lives and make a difference in our community. Every donation counts, every camp matters, and every life saved is precious.",
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 16,
               color: Colors.white.withOpacity(0.9),
               height: 1.5,
@@ -472,16 +465,16 @@ class _AboutUsPageState extends State<AboutUsPage>
                 children: [
                   Text(
                     member['name'],
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     member['role'],
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 14,
-                      color: Color(0xFF9E9E9E),
+                      color: const Color(0xFF9E9E9E),
                     ),
                   ),
                 ],
@@ -495,12 +488,12 @@ class _AboutUsPageState extends State<AboutUsPage>
           children: [
             Text(
               "Student ID: ${member['id']}",
-              style: const TextStyle(fontSize: 16),
+              style: GoogleFonts.poppins(fontSize: 16),
             ),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               "Connect with me:",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Row(
@@ -531,10 +524,10 @@ class _AboutUsPageState extends State<AboutUsPage>
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
+            child: Text(
               "Close",
-              style: TextStyle(
-                color: Color(0xFFFF6B6B),
+              style: GoogleFonts.poppins(
+                color: const Color(0xFFFF6B6B),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -544,7 +537,6 @@ class _AboutUsPageState extends State<AboutUsPage>
     );
   }
 
-  // FIXED: This widget now correctly uses the onTap callback.
   Widget _buildSocialButton({
     required IconData icon,
     required String label,
@@ -552,7 +544,7 @@ class _AboutUsPageState extends State<AboutUsPage>
     required VoidCallback onTap,
   }) {
     return InkWell(
-      onTap: onTap, // Directly use the passed-in function
+      onTap: onTap,
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -563,7 +555,7 @@ class _AboutUsPageState extends State<AboutUsPage>
             const SizedBox(height: 4),
             Text(
               label,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: color,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,

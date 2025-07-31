@@ -15,11 +15,12 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = [
-    const HomePage(),
-    const LiveCampsPage(),
-    const NearbyPage(),
-    const ProfilePage(),
+  // OPTIMIZATION: The list of pages is now const.
+  final List<Widget> _pages = const [
+    HomePage(),
+    LiveCampsPage(),
+    NearbyPage(),
+    ProfilePage(),
   ];
 
   void _onTap(int index) {
@@ -32,6 +33,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     return await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
+        // OPTIMIZATION: const added
         title: const Text('Exit App?'),
         content: const Text('Are you sure you want to exit?'),
         actions: <Widget>[
@@ -45,30 +47,23 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           ),
         ],
       ),
-    ) ?? false; // Return false if the dialog is dismissed
+    ) ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      // We always intercept the pop gesture to control navigation.
       canPop: false,
       onPopInvoked: (didPop) async {
-        // This check prevents the logic from running if a pop event
-        // somehow slips through.
         if (didPop) return;
 
-        // If the current page is NOT the HomePage...
         if (_currentIndex != 0) {
-          // ...then navigate to the HomePage.
           setState(() {
             _currentIndex = 0;
           });
         } else {
-          // If we ARE on the HomePage, show the exit confirmation dialog.
           final shouldExit = await _showExitConfirmationDialog();
           if (shouldExit) {
-            // If the user confirms, exit the application.
             SystemNavigator.pop();
           }
         }
@@ -86,6 +81,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           selectedItemColor: const Color(0xFFFF6B6B),
           unselectedItemColor: Colors.grey.shade600,
           elevation: 10,
+          // OPTIMIZATION: The list of items is now const.
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),

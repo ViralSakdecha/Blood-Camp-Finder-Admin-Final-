@@ -93,7 +93,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       context: context,
       initialDate: _selectedDate ?? eighteenYearsAgo,
       firstDate: DateTime(1900),
-      lastDate: eighteenYearsAgo, // Ensures user is at least 18
+      lastDate: eighteenYearsAgo,
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -249,8 +249,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 controller: _dobController,
                 label: "Date of Birth",
                 icon: Icons.calendar_today,
-                readOnly: true, // Makes the field non-editable
-                onTap: () => _selectDate(context), // Triggers calendar on tap
+                readOnly: true,
+                onTap: () => _selectDate(context),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Date of Birth is required";
@@ -350,6 +350,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+  // OPTIMIZATION: Added const constructors where possible.
   Widget _buildTextFormField({
     required String label,
     required IconData icon,

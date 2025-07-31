@@ -37,9 +37,9 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
   final TextEditingController registerPasswordController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController dobController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -50,16 +50,10 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   DateTime? _selectedDate;
   String? _selectedGender;
   String? _selectedBloodGroup;
-  final List<String> _genderOptions = ['Male', 'Female', 'Other'];
-  final List<String> _bloodGroupOptions = [
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
+  // ✨ OPTIMIZATION: Made static lists const for performance.
+  static const List<String> _genderOptions = ['Male', 'Female', 'Other'];
+  static const List<String> _bloodGroupOptions = [
+    'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-',
   ];
 
   @override
@@ -204,7 +198,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
       context: context,
       initialDate: _selectedDate ?? eighteenYearsAgo,
       firstDate: DateTime(1900),
-      lastDate: eighteenYearsAgo, // Ensures user is at least 18
+      lastDate: eighteenYearsAgo,
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -289,11 +283,11 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
         );
       }
 
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(
-            email: registerEmailController.text.trim(),
-            password: registerPasswordController.text.trim(),
-          );
+      UserCredential userCredential =
+      await _auth.createUserWithEmailAndPassword(
+        email: registerEmailController.text.trim(),
+        password: registerPasswordController.text.trim(),
+      );
 
       String uid = userCredential.user!.uid;
 
@@ -341,18 +335,21 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
     Widget? suffixIcon,
     int maxLines = 1,
   }) {
+    // ✨ OPTIMIZATION: Extracted box decoration to a constant.
+    const boxDecoration = BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(16)),
+      boxShadow: [
+        BoxShadow(
+          color: Color.fromRGBO(255, 107, 107, 0.1),
+          blurRadius: 15,
+          offset: Offset(0, 5),
+        ),
+      ],
+    );
+
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFFF6B6B).withOpacity(0.1),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+      decoration: boxDecoration,
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
@@ -409,14 +406,14 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
         ),
         prefixIcon: icon != null
             ? Container(
-                margin: const EdgeInsets.all(12),
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFF6B6B).withOpacity(0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
-              )
+          margin: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFF6B6B).withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
+        )
             : null,
         filled: true,
         fillColor: Colors.white,
@@ -613,7 +610,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                       _buildAuthToggle(),
                       const SizedBox(height: 30),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.6,
+                        // ✨ OPTIMIZATION: Set a more adaptive height
+                        height: MediaQuery.of(context).size.height * 0.7,
                         child: PageView(
                           controller: _pageController,
                           onPageChanged: (index) {
@@ -639,6 +637,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
 
   Widget _buildLoginForm() {
     return SingleChildScrollView(
+      // ✨ OPTIMIZATION: Added physics for better scrolling on iOS
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           _buildInputField(
@@ -674,6 +674,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
 
   Widget _buildRegisterForm() {
     return SingleChildScrollView(
+      // ✨ OPTIMIZATION: Added physics for better scrolling on iOS
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           _buildInputField(
@@ -696,7 +698,6 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
             keyboardType: TextInputType.phone,
           ),
           const SizedBox(height: 15),
-          // ❗ FIX: Wrapped the TextFormField in a GestureDetector
           GestureDetector(
             onTap: () => _selectDate(context),
             child: AbsorbPointer(
@@ -744,7 +745,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                 color: const Color(0xFFFF6B6B),
               ),
               onPressed: () => setState(
-                () => _obscureRegisterPassword = !_obscureRegisterPassword,
+                    () => _obscureRegisterPassword = !_obscureRegisterPassword,
               ),
             ),
           ),
@@ -762,7 +763,7 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                 color: const Color(0xFFFF6B6B),
               ),
               onPressed: () => setState(
-                () => _obscureConfirmPassword = !_obscureConfirmPassword,
+                    () => _obscureConfirmPassword = !_obscureConfirmPassword,
               ),
             ),
           ),
@@ -804,21 +805,21 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
         ),
         child: isLoading
             ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
-              )
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(
+            color: Colors.white,
+            strokeWidth: 2,
+          ),
+        )
             : Text(
-                text,
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+          text,
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

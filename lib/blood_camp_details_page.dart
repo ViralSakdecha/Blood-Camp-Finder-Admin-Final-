@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart'; // 👈 Import Google Fonts
 import 'feedback_form.dart';
 
 class BloodCampDetailsPage extends StatelessWidget {
@@ -10,7 +11,7 @@ class BloodCampDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Changed background to white
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -23,9 +24,9 @@ class BloodCampDetailsPage extends StatelessWidget {
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           "Blood Camp Details",
-          style: TextStyle(
+          style: GoogleFonts.poppins( // 👈 Applied font
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -38,6 +39,7 @@ class BloodCampDetailsPage extends StatelessWidget {
         future: FirebaseFirestore.instance
             .collection('bloodbanks')
             .where('name', isEqualTo: campName)
+            .limit(1)
             .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -49,7 +51,8 @@ class BloodCampDetailsPage extends StatelessWidget {
             return const Center(child: Text('Camp not found.'));
           }
 
-          final camp = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+          final camp =
+          snapshot.data!.docs.first.data() as Map<String, dynamic>;
 
           final name = camp['name'] ?? 'Not available';
           final organizer = camp['organized_by'] ?? 'Not available';
@@ -73,11 +76,11 @@ class BloodCampDetailsPage extends StatelessWidget {
                   child: Column(
                     children: [
                       const Icon(Icons.bloodtype,
-                          color: Color(0xFFFF6B6B), size: 60), // Updated color
+                          color: Color(0xFFFF6B6B), size: 60),
                       const SizedBox(height: 16),
                       Text(
                         name,
-                        style: const TextStyle(
+                        style: GoogleFonts.poppins( // 👈 Applied font
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
@@ -142,9 +145,9 @@ class BloodCampDetailsPage extends StatelessWidget {
                     },
                     icon: const Icon(Icons.feedback_outlined,
                         color: Colors.white),
-                    label: const Text(
+                    label: Text(
                       "Give Feedback",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins( // 👈 Applied font
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -174,7 +177,7 @@ class BloodCampDetailsPage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: const Color(0xFFFF6B6B), size: 28), // Updated color
+          Icon(icon, color: const Color(0xFFFF6B6B), size: 28),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -182,7 +185,7 @@ class BloodCampDetailsPage extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins( // 👈 Applied font
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     color: Colors.black87,
@@ -191,7 +194,7 @@ class BloodCampDetailsPage extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   value,
-                  style: const TextStyle(
+                  style: GoogleFonts.poppins( // 👈 Applied font
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
                     color: Colors.black87,

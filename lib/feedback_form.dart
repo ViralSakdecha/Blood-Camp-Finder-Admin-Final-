@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:io'; // Required for Platform information
-import 'package:flutter/foundation.dart' show kIsWeb; // Required for kIsWeb
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_fonts/google_fonts.dart'; // 👈 Import Google Fonts
 
 class FeedbackForm extends StatefulWidget {
   final String campName;
@@ -12,7 +13,8 @@ class FeedbackForm extends StatefulWidget {
   State<FeedbackForm> createState() => _FeedbackFormState();
 }
 
-class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMixin {
+class _FeedbackFormState extends State<FeedbackForm>
+    with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _commentController = TextEditingController();
 
@@ -21,7 +23,6 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
   bool _isLoading = true;
   bool _isSubmitting = false;
 
-  // Rating system
   final List<String> _feedbackCategories = [
     'Staff Service',
     'Facility Cleanliness',
@@ -30,7 +31,6 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
   ];
   final Map<String, int> _categoryRatings = {};
 
-  // Animation controllers
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
@@ -41,7 +41,6 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
     super.initState();
     _initializeAnimations();
     _fetchUserData();
-    // Initialize category ratings
     for (var category in _feedbackCategories) {
       _categoryRatings[category] = 0;
     }
@@ -96,7 +95,8 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
     } catch (e) {
       setState(() => _isLoading = false);
       if (!mounted) return;
-      _showSnackBar('Error fetching user data. Please try again.', isError: true);
+      _showSnackBar('Error fetching user data. Please try again.',
+          isError: true);
       Navigator.pop(context);
     }
   }
@@ -105,7 +105,7 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(message, style: GoogleFonts.poppins()), // 👈 Applied font
         backgroundColor: isError ? const Color(0xFFFF6B6B) : Colors.green,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -116,8 +116,8 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
   Future<void> _submitFeedback() async {
     if (!_formKey.currentState!.validate()) return;
 
-    // Check if at least one rating has been given
-    bool hasRatedSomething = _categoryRatings.values.any((rating) => rating > 0);
+    bool hasRatedSomething =
+    _categoryRatings.values.any((rating) => rating > 0);
     if (!hasRatedSomething) {
       _showSnackBar('Please provide at least one rating', isError: true);
       return;
@@ -126,7 +126,6 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
     setState(() => _isSubmitting = true);
 
     try {
-      // Create a properly structured data object
       final feedbackData = {
         'campName': widget.campName,
         'userDetails': {
@@ -143,28 +142,32 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
         'comments': _commentController.text.trim(),
         'submittedAt': FieldValue.serverTimestamp(),
         'metadata': {
-          'appVersion': '1.0.0', // Example version
+          'appVersion': '1.0.0',
           'platform': kIsWeb ? 'web' : Platform.operatingSystem,
         },
       };
 
-      await FirebaseFirestore.instance.collection('campFeedbacks').add(feedbackData);
+      await FirebaseFirestore.instance
+          .collection('campFeedbacks')
+          .add(feedbackData);
 
       if (!mounted) return;
       _showSnackBar('Thank you for your feedback!');
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
-      _showSnackBar('Failed to submit feedback. Please try again.', isError: true);
+      _showSnackBar('Failed to submit feedback. Please try again.',
+          isError: true);
     } finally {
-      if(mounted) {
+      if (mounted) {
         setState(() => _isSubmitting = false);
       }
     }
   }
 
   Widget _buildRatingBar(int rating, Function(int) onChanged,
-      {double size = 36, MainAxisAlignment alignment = MainAxisAlignment.center}) {
+      {double size = 36,
+        MainAxisAlignment alignment = MainAxisAlignment.center}) {
     return Row(
       mainAxisAlignment: alignment,
       mainAxisSize: MainAxisSize.min,
@@ -204,10 +207,10 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
           Expanded(
             child: Text(
               category,
-              style: const TextStyle(
+              style: GoogleFonts.poppins( // 👈 Applied font
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: Color(0xFF2E2E2E),
+                color: const Color(0xFF2E2E2E),
               ),
             ),
           ),
@@ -233,10 +236,10 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
               valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF6B6B)),
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               "Loading feedback form...",
-              style: TextStyle(
-                color: Color(0xFF9E9E9E),
+              style: GoogleFonts.poppins( // 👈 Applied font
+                color: const Color(0xFF9E9E9E),
                 fontSize: 16,
               ),
             ),
@@ -255,9 +258,9 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Give Feedback',
-          style: TextStyle(
+          style: GoogleFonts.poppins( // 👈 Applied font
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -285,41 +288,41 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Rate Your Experience At',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins( // 👈 Applied font
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF2E2E2E),
+                      color: const Color(0xFF2E2E2E),
                     ),
                   ),
                   Text(
                     widget.campName,
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins( // 👈 Applied font
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFFFF6B6B),
+                      color: const Color(0xFFFF6B6B),
                     ),
                   ),
                   const SizedBox(height: 24),
-
                   ..._feedbackCategories.map(_buildCategoryRating),
                   const SizedBox(height: 24),
-
-                  const Text(
+                  Text(
                     'Additional Comments (Optional)',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins( // 👈 Applied font
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF2E2E2E),
+                      color: const Color(0xFF2E2E2E),
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _commentController,
                     maxLines: 5,
+                    style: GoogleFonts.poppins(), // 👈 Applied font to input text
                     decoration: InputDecoration(
                       hintText: 'Your feedback helps us improve...',
+                      hintStyle: GoogleFonts.poppins(), // 👈 Applied font to hint text
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide(color: Colors.grey.shade300),
@@ -336,7 +339,6 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
                     ),
                   ),
                   const SizedBox(height: 32),
-
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -368,11 +370,14 @@ class _FeedbackFormState extends State<FeedbackForm> with TickerProviderStateMix
                           ? const SizedBox(
                         height: 24,
                         width: 24,
-                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 3,),
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 3,
+                        ),
                       )
-                          : const Text(
+                          : Text(
                         'Submit Feedback',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins( // 👈 Applied font
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // 👈 Import Google Fonts
 
 class FAQPage extends StatefulWidget {
   const FAQPage({super.key});
@@ -79,9 +80,9 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           "FAQs & Blood Donation Guide",
-          style: TextStyle(
+          style: GoogleFonts.poppins( // 👈 Applied font
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -148,22 +149,22 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Got Questions?",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins( // 👈 Applied font
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               "Everything you need to know about blood donation",
-                              style: TextStyle(
+                              style: GoogleFonts.poppins( // 👈 Applied font
                                 fontSize: 16,
                                 color: Colors.white70,
                               ),
@@ -175,20 +176,20 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                   ),
                 ),
                 const SizedBox(height: 32),
-                const Text(
+                Text(
                   "Frequently Asked Questions",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins( // 👈 Applied font
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E2E2E),
+                    color: const Color(0xFF2E2E2E),
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   "Tap on any question to learn more",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins( // 👈 Applied font
                     fontSize: 16,
-                    color: Color(0xFF9E9E9E),
+                    color: const Color(0xFF9E9E9E),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -252,7 +253,10 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                       gradient: LinearGradient(
                         colors: isExpanded
                             ? [const Color(0xFFFF8A95), const Color(0xFFFF6B6B)]
-                            : [const Color(0xFFFF6B6B).withOpacity(0.1), const Color(0xFFFF6B6B).withOpacity(0.1)],
+                            : [
+                          const Color(0xFFFF6B6B).withOpacity(0.1),
+                          const Color(0xFFFF6B6B).withOpacity(0.1)
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -260,7 +264,9 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                     ),
                     child: Icon(
                       faq['icon'] as IconData,
-                      color: isExpanded ? Colors.white : const Color(0xFFFF6B6B),
+                      color: isExpanded
+                          ? Colors.white
+                          : const Color(0xFFFF6B6B),
                       size: 24,
                     ),
                   ),
@@ -271,19 +277,21 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                       children: [
                         Text(
                           faq['question'] as String,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins( // 👈 Applied font
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: isExpanded ? const Color(0xFFFF6B6B) : const Color(0xFF2E2E2E),
+                            color: isExpanded
+                                ? const Color(0xFFFF6B6B)
+                                : const Color(0xFF2E2E2E),
                           ),
                         ),
                         if (faq['subtitle'] != null) ...[
                           const SizedBox(height: 4),
                           Text(
                             faq['subtitle'] as String,
-                            style: const TextStyle(
+                            style: GoogleFonts.poppins( // 👈 Applied font
                               fontSize: 14,
-                              color: Color(0xFF9E9E9E),
+                              color: const Color(0xFF9E9E9E),
                             ),
                           ),
                         ],
@@ -310,7 +318,6 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
               ),
             ),
           ),
-          // Replaced AnimatedCrossFade with a simple conditional widget
           if (isExpanded)
             Container(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
@@ -324,9 +331,9 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                   ),
                   Text(
                     faq['answer'] as String,
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins( // 👈 Applied font
                       fontSize: 15,
-                      color: Color(0xFF666666),
+                      color: const Color(0xFF666666),
                       height: 1.5,
                     ),
                   ),
@@ -337,55 +344,56 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                           color: const Color(0xFFFF6B6B).withOpacity(0.05),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFFF6B6B).withOpacity(0.1))
-                      ),
+                          border: Border.all(
+                              color:
+                              const Color(0xFFFF6B6B).withOpacity(0.1))),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Row(
+                          Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.lightbulb_outline,
                                 color: Color(0xFFFF6B6B),
                                 size: 20,
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Text(
                                 "Pro Tips:",
-                                style: TextStyle(
+                                style: GoogleFonts.poppins( // 👈 Applied font
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFFFF6B6B),
+                                  color: const Color(0xFFFF6B6B),
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8),
-                          ...(faq['tips'] as List<String>).map((tip) =>
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "• ",
-                                      style: TextStyle(
-                                        color: Color(0xFFFF6B6B),
-                                        fontWeight: FontWeight.bold,
+                          ...(faq['tips'] as List<String>).map(
+                                (tip) => Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "• ",
+                                    style: GoogleFonts.poppins( // 👈 Applied font
+                                      color: const Color(0xFFFF6B6B),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      tip,
+                                      style: GoogleFonts.poppins( // 👈 Applied font
+                                        fontSize: 14,
+                                        color: const Color(0xFF666666),
                                       ),
                                     ),
-                                    Expanded(
-                                      child: Text(
-                                        tip,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                            ),
                           ),
                         ],
                       ),
@@ -435,24 +443,24 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                 ),
               ),
               const SizedBox(width: 16),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Emergency Blood Request",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins( // 👈 Applied font
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2E2E2E),
+                        color: const Color(0xFF2E2E2E),
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       "Need blood urgently? Contact these numbers",
-                      style: TextStyle(
+                      style: GoogleFonts.poppins( // 👈 Applied font
                         fontSize: 14,
-                        color: Color(0xFF9E9E9E),
+                        color: const Color(0xFF9E9E9E),
                       ),
                     ),
                   ],
@@ -470,23 +478,23 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                     color: const Color(0xFFFF6B6B).withOpacity(0.05),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
                       Text(
                         "National Helpline",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins( // 👈 Applied font
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFFFF6B6B),
+                          color: const Color(0xFFFF6B6B),
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         "1910",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins( // 👈 Applied font
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF2E2E2E),
+                          color: const Color(0xFF2E2E2E),
                         ),
                       ),
                     ],
@@ -501,23 +509,23 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                     color: const Color(0xFFFF6B6B).withOpacity(0.05),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
                       Text(
                         "Blood Bank",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins( // 👈 Applied font
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFFFF6B6B),
+                          color: const Color(0xFFFF6B6B),
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         "104",
-                        style: TextStyle(
+                        style: GoogleFonts.poppins( // 👈 Applied font
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF2E2E2E),
+                          color: const Color(0xFF2E2E2E),
                         ),
                       ),
                     ],
@@ -567,10 +575,10 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                 ),
               ),
               const SizedBox(width: 16),
-              const Expanded(
+              Expanded(
                 child: Text(
                   "Be a Hero, Save Lives",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins( // 👈 Applied font
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -582,7 +590,7 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
           const SizedBox(height: 16),
           Text(
             "Every blood donation can save up to 3 lives. Your contribution makes a difference in someone's life. Thank you for being a hero!",
-            style: TextStyle(
+            style: GoogleFonts.poppins( // 👈 Applied font
               fontSize: 16,
               color: Colors.white.withOpacity(0.9),
               height: 1.5,
@@ -614,26 +622,26 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(width: 12),
-            const Text(
+            Text(
               "About Blood Donation",
-              style: TextStyle(
+              style: GoogleFonts.poppins( // 👈 Applied font
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
-        content: const Text(
+        content: Text(
           "Blood donation is a voluntary procedure that can help save lives. Donated blood is used for transfusions and for manufacturing medicines. Every unit of blood donated can save up to 3 lives.",
-          style: TextStyle(fontSize: 16, height: 1.5),
+          style: GoogleFonts.poppins(fontSize: 16, height: 1.5), // 👈 Applied font
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
+            child: Text(
               "Got it",
-              style: TextStyle(
-                color: Color(0xFFFF6B6B),
+              style: GoogleFonts.poppins( // 👈 Applied font
+                color: const Color(0xFFFF6B6B),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -648,7 +656,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.person_outline,
       'question': 'Who can donate blood?',
       'subtitle': 'Eligibility criteria',
-      'answer': 'Anyone aged 18–65 years old, in good health, and weighing at least 50kg (110 lbs) can donate blood. You should not have any infections, chronic conditions, or be taking certain medications that could affect your health or the safety of the blood supply.',
+      'answer':
+      'Anyone aged 18–65 years old, in good health, and weighing at least 50kg (110 lbs) can donate blood. You should not have any infections, chronic conditions, or be taking certain medications that could affect your health or the safety of the blood supply.',
       'tips': [
         'Must be in good general health',
         'No fever or illness in the past 2 weeks',
@@ -660,7 +669,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.schedule,
       'question': 'How often can I donate blood?',
       'subtitle': 'Donation frequency',
-      'answer': 'Males can donate every 3 months (12 weeks), while females can donate every 4 months (16 weeks). This interval allows your body enough time to replenish the red blood cells and maintain healthy iron levels.',
+      'answer':
+      'Males can donate every 3 months (12 weeks), while females can donate every 4 months (16 weeks). This interval allows your body enough time to replenish the red blood cells and maintain healthy iron levels.',
       'tips': [
         'Males: Every 12 weeks (4 times per year)',
         'Females: Every 16 weeks (3 times per year)',
@@ -672,7 +682,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.restaurant,
       'question': 'What should I do before donating?',
       'subtitle': 'Pre-donation preparation',
-      'answer': 'Stay well-hydrated by drinking plenty of water, eat a light nutritious meal 2-3 hours before donating, get adequate sleep the night before, and avoid alcohol for 24 hours prior to donation. Also, bring a valid ID and list of medications.',
+      'answer':
+      'Stay well-hydrated by drinking plenty of water, eat a light nutritious meal 2-3 hours before donating, get adequate sleep the night before, and avoid alcohol for 24 hours prior to donation. Also, bring a valid ID and list of medications.',
       'tips': [
         'Drink 16-20 oz of water before donating',
         'Eat iron-rich foods like spinach, beans, red meat',
@@ -684,7 +695,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.security,
       'question': 'Is blood donation safe?',
       'subtitle': 'Safety measures',
-      'answer': 'Yes, blood donation is completely safe. All equipment is sterile, single-use, and disposed of after each donation. The donation process is conducted by trained medical professionals in a clean, controlled environment following strict safety protocols.',
+      'answer':
+      'Yes, blood donation is completely safe. All equipment is sterile, single-use, and disposed of after each donation. The donation process is conducted by trained medical professionals in a clean, controlled environment following strict safety protocols.',
       'tips': [
         'All needles and tubes are sterile and single-use',
         'Professional medical staff oversee the process',
@@ -696,7 +708,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.timer,
       'question': 'How long does the donation process take?',
       'subtitle': 'Time commitment',
-      'answer': 'The entire process typically takes 45-60 minutes, including registration, health screening, mini-physical, donation, and recovery time. The actual blood collection usually takes only 8-10 minutes.',
+      'answer':
+      'The entire process typically takes 45-60 minutes, including registration, health screening, mini-physical, donation, and recovery time. The actual blood collection usually takes only 8-10 minutes.',
       'tips': [
         'Registration: 5-10 minutes',
         'Health screening: 10-15 minutes',
@@ -708,7 +721,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.science,
       'question': 'What happens to my blood after donation?',
       'subtitle': 'Blood processing',
-      'answer': 'Your blood is tested for safety, processed into different components (red cells, plasma, platelets), and distributed to hospitals where it can help save up to three lives. Each component serves different medical purposes.',
+      'answer':
+      'Your blood is tested for safety, processed into different components (red cells, plasma, platelets), and distributed to hospitals where it can help save up to three lives. Each component serves different medical purposes.',
       'tips': [
         'Tested for infectious diseases',
         'Separated into red cells, plasma, and platelets',
@@ -720,7 +734,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.health_and_safety,
       'question': 'Are there any side effects?',
       'subtitle': 'Post-donation care',
-      'answer': 'Most people experience no side effects. Some may feel slightly dizzy, tired, or have minor bruising at the needle site. These effects are temporary and usually resolve within a few hours to a day.',
+      'answer':
+      'Most people experience no side effects. Some may feel slightly dizzy, tired, or have minor bruising at the needle site. These effects are temporary and usually resolve within a few hours to a day.',
       'tips': [
         'Drink plenty of fluids after donation',
         'Avoid heavy lifting for 24 hours',
@@ -732,7 +747,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.colorize,
       'question': 'Can I donate if I have tattoos or piercings?',
       'subtitle': 'Tattoo and piercing policies',
-      'answer': 'Yes, you can donate if your tattoos or piercings were done at a licensed, regulated facility using sterile equipment. There may be a waiting period of 3-12 months depending on when they were done and local regulations.',
+      'answer':
+      'Yes, you can donate if your tattoos or piercings were done at a licensed, regulated facility using sterile equipment. There may be a waiting period of 3-12 months depending on when they were done and local regulations.',
       'tips': [
         'Must be done at a licensed facility',
         'Waiting period varies by location',
@@ -744,7 +760,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
       'icon': Icons.local_hospital,
       'question': 'What blood types are needed most?',
       'subtitle': 'Blood type demand',
-      'answer': 'O-negative blood is the universal donor type and is always in high demand. However, all blood types are needed. AB-positive is the universal plasma donor, while O-positive is the most common blood type.',
+      'answer':
+      'O-negative blood is the universal donor type and is always in high demand. However, all blood types are needed. AB-positive is the universal plasma donor, while O-positive is the most common blood type.',
       'tips': [
         'O-negative: Universal red blood cell donor',
         'AB-positive: Universal plasma donor',

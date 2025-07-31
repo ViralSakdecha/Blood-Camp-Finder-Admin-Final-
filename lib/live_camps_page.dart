@@ -1,9 +1,10 @@
+// lib/live_camps_page.dart
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // 👈 Import Google Fonts
 import 'package:intl/intl.dart';
-import 'animation_manager.dart'; // 👈 Import the manager
-
-// Ensure this import path matches the location of your details page.
+import 'animation_manager.dart';
 import 'blood_camp_details_page.dart';
 
 class LiveCampsPage extends StatefulWidget {
@@ -124,7 +125,7 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
   void _showSnackBar(String message) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
+      content: Text(message, style: GoogleFonts.poppins()),
       backgroundColor: const Color(0xFFFF6B6B),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -140,6 +141,7 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
+            textTheme: GoogleFonts.poppinsTextTheme(), // Apply font to DatePicker
             colorScheme: const ColorScheme.light(
               primary: Color(0xFFFF6B6B),
               onPrimary: Colors.white,
@@ -160,55 +162,60 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
 
   Widget _buildModernDropdown({
     required String label,
+    required IconData icon,
     required String? value,
     required List<String> items,
-    required Function(String?) onChanged,
-    IconData? icon,
+    required ValueChanged<String?>? onChanged,
+    bool enabled = true,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFFF6B6B).withOpacity(0.1),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
+    return DropdownButtonFormField<String>(
+      value: value,
+      items: items.map((item) {
+        return DropdownMenuItem(
+          value: item,
+          child: Text(item, style: GoogleFonts.poppins(fontSize: 16)),
+        );
+      }).toList(),
+      onChanged: enabled ? onChanged : null,
+      dropdownColor: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(
+            color: enabled ? Colors.grey.shade700 : Colors.grey.shade500),
+        prefixIcon: Container(
+          margin: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: enabled
+                ? const Color(0xFFFF6B6B).withOpacity(0.1)
+                : Colors.grey.shade300,
+            shape: BoxShape.circle,
           ),
-        ],
-      ),
-      child: DropdownButtonFormField<String>(
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: const TextStyle(color: Color(0xFF9E9E9E), fontSize: 16),
-          prefixIcon: icon != null
-              ? Container(
-            margin: const EdgeInsets.all(12),
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFF6B6B).withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
-          )
-              : null,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFFFF6B6B), width: 2),
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Icon(icon,
+              color: enabled ? const Color(0xFFFF6B6B) : Colors.grey.shade400,
+              size: 20),
         ),
-        value: value,
-        items: items.map((item) {
-          return DropdownMenuItem(value: item, child: Text(item, style: const TextStyle(color: Color(0xFF2E2E2E), fontSize: 16)));
-        }).toList(),
-        onChanged: onChanged,
-        dropdownColor: Colors.white,
-        style: const TextStyle(color: Color(0xFF2E2E2E), fontSize: 16),
+        filled: true,
+        fillColor: enabled ? Colors.white : Colors.grey.shade200,
+        contentPadding:
+        const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(color: Color(0xFFFF6B6B), width: 2.0),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
       ),
     );
   }
@@ -241,11 +248,11 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Select Date', style: TextStyle(color: Color(0xFF9E9E9E), fontSize: 12)),
+                          Text('Select Date', style: GoogleFonts.poppins(color: const Color(0xFF9E9E9E), fontSize: 12)),
                           const SizedBox(height: 4),
                           Text(
                             selectedDate != null ? DateFormat('MMM dd, yyyy').format(selectedDate!) : 'Choose a date',
-                            style: TextStyle(
+                            style: GoogleFonts.poppins(
                               color: selectedDate != null ? const Color(0xFF2E2E2E) : const Color(0xFF9E9E9E),
                               fontSize: 16,
                               fontWeight: selectedDate != null ? FontWeight.w500 : FontWeight.normal,
@@ -308,9 +315,9 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(campName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                        Text(campName, style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
                         const SizedBox(height: 4),
-                        Text('Blood Donation Camp', style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 14)),
+                        Text('Blood Donation Camp', style: GoogleFonts.poppins(color: Colors.white.withOpacity(0.9), fontSize: 14)),
                       ],
                     ),
                   ),
@@ -363,9 +370,9 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF9E9E9E), fontWeight: FontWeight.w500)),
+              Text(label, style: GoogleFonts.poppins(fontSize: 12, color: const Color(0xFF9E9E9E), fontWeight: FontWeight.w500)),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(fontSize: 14, color: Color(0xFF2E2E2E), fontWeight: FontWeight.w500)),
+              Text(value, style: GoogleFonts.poppins(fontSize: 14, color: const Color(0xFF2E2E2E), fontWeight: FontWeight.w500)),
             ],
           ),
         ),
@@ -398,7 +405,7 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
             ),
           ),
         ),
-        title: const Text('Live Blood Camps', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+        title: Text('Live Blood Camps', style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
         centerTitle: true,
         foregroundColor: Colors.white,
       ),
@@ -438,17 +445,17 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                           child: const Icon(Icons.filter_list, color: Color(0xFFFF6B6B), size: 20),
                         ),
                         const SizedBox(width: 12),
-                        const Text(
+                        Text(
                           'Filter Camps',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
+                          style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2E2E2E)),
                         ),
                       ]),
                       const SizedBox(height: 20),
                       _buildModernDropdown(
-                        label: 'Select State',
+                        label: "Select State",
+                        icon: Icons.location_city,
                         value: selectedState,
                         items: states,
-                        icon: Icons.location_city,
                         onChanged: (value) {
                           if (!mounted) return;
                           setState(() {
@@ -461,10 +468,10 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                       ),
                       const SizedBox(height: 16),
                       _buildModernDropdown(
-                        label: 'Select City',
+                        label: "Select City",
+                        icon: Icons.location_on,
                         value: selectedCity,
                         items: cities,
-                        icon: Icons.location_on,
                         onChanged: (value) {
                           if (!mounted) return;
                           setState(() => selectedCity = value);
@@ -480,15 +487,14 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                 stream: FirebaseFirestore.instance.collection('bloodbanks').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return const SliverToBoxAdapter(
-                        child: Center(child: Padding(padding: EdgeInsets.all(32.0), child: Text('Error loading camps'))));
+                    return SliverToBoxAdapter(
+                        child: Center(child: Padding(padding: const EdgeInsets.all(32.0), child: Text('Error loading camps', style: GoogleFonts.poppins()))));
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const SliverFillRemaining(
                         child: Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF6B6B)))));
                   }
 
-                  // NEW: Check if any filter is applied. If not, show a prompt.
                   if (selectedState == null && selectedCity == null && selectedDate == null) {
                     return SliverFillRemaining(
                       hasScrollBody: false,
@@ -505,16 +511,16 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                               child: const Icon(Icons.search, size: 60, color: Color(0xFFFF6B6B)),
                             ),
                             const SizedBox(height: 24),
-                            const Text(
+                            Text(
                               'Find Blood Camps',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 20, fontWeight: FontWeight.bold, color: const Color(0xFF2E2E2E)),
                             ),
                             const SizedBox(height: 8),
-                            const Text(
+                            Text(
                               'Select a state, city, or date to begin.',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 16, color: Color(0xFF9E9E9E)),
+                              style: GoogleFonts.poppins(fontSize: 16, color: const Color(0xFF9E9E9E)),
                             ),
                           ],
                         ),
@@ -567,16 +573,16 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                               child: const Icon(Icons.event_busy, size: 60, color: Color(0xFFFF6B6B)),
                             ),
                             const SizedBox(height: 24),
-                            const Text(
+                            Text(
                               'No active camps found',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF2E2E2E)),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 20, fontWeight: FontWeight.bold, color: const Color(0xFF2E2E2E)),
                             ),
                             const SizedBox(height: 8),
                             if (selectedDate != null)
                               Text(
                                 'for ${DateFormat('MMM dd, yyyy').format(selectedDate!)}',
-                                style: const TextStyle(fontSize: 16, color: Color(0xFF9E9E9E)),
+                                style: GoogleFonts.poppins(fontSize: 16, color: const Color(0xFF9E9E9E)),
                               ),
                             const SizedBox(height: 24),
                             ElevatedButton(
@@ -595,9 +601,9 @@ class _LiveCampsPageState extends State<LiveCampsPage> with TickerProviderStateM
                                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                                   elevation: 5,
                                   shadowColor: const Color(0xFFFF6B6B).withOpacity(0.3)),
-                              child: const Text(
+                              child: Text(
                                 "Clear Filters",
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],

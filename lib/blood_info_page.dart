@@ -1,6 +1,6 @@
-// blood_info_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BloodInfoPage extends StatefulWidget {
   const BloodInfoPage({super.key});
@@ -24,10 +24,10 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       'canReceiveFrom': ['A+', 'A-', 'O+', 'O-'],
       'populationPercent': 34,
       'info':
-          'A+ is one of the most common blood types. Contains A antigens and Rh factor.',
+      'A+ is one of the most common blood types. Contains A antigens and Rh factor.',
       'color': Colors.red.shade400,
       'emergencyInfo':
-          'High demand blood type. Regularly needed for trauma patients.',
+      'High demand blood type. Regularly needed for trauma patients.',
       'medicalFacts': [
         'Contains A antigens on red blood cells',
         'Has Rh factor (positive)',
@@ -90,7 +90,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       'canReceiveFrom': ['Everyone'],
       'populationPercent': 3,
       'info':
-          'AB+ is the universal recipient. Can receive from all blood types.',
+      'AB+ is the universal recipient. Can receive from all blood types.',
       'color': Colors.purple.shade400,
       'emergencyInfo': 'Universal plasma donor. Rare but versatile.',
       'medicalFacts': [
@@ -123,7 +123,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       'canReceiveFrom': ['O+', 'O-'],
       'populationPercent': 39,
       'info':
-          'O+ is the most common blood type. Universal donor for all Rh+ types.',
+      'O+ is the most common blood type. Universal donor for all Rh+ types.',
       'color': Colors.orange.shade400,
       'emergencyInfo': 'Most common type. High demand in emergencies.',
       'medicalFacts': [
@@ -142,7 +142,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       'info': 'O- is the universal donor. Can donate to all blood types.',
       'color': Colors.orange.shade600,
       'emergencyInfo':
-          'Universal donor. Critical for all emergency situations.',
+      'Universal donor. Critical for all emergency situations.',
       'medicalFacts': [
         'No A, B, or Rh antigens',
         'Universal donor for all blood types',
@@ -158,7 +158,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -166,7 +166,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
     );
 
     _pulseController = AnimationController(
-      duration: Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
@@ -187,8 +187,6 @@ class _BloodInfoPageState extends State<BloodInfoPage>
     });
     _animationController.reset();
     _animationController.forward();
-
-    // Haptic feedback
     HapticFeedback.lightImpact();
   }
 
@@ -199,13 +197,13 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       appBar: AppBar(
         title: Text(
           "Blood Type Information",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Colors.red.shade200,
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.info_outline, color: Colors.white),
+            icon: const Icon(Icons.info_outline, color: Colors.white),
             onPressed: () => _showInfoDialog(),
           ),
         ],
@@ -224,7 +222,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
               _buildDonationInfo(),
             ],
             _buildGeneralInfo(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -234,7 +232,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
   Widget _buildHeaderSection() {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
           begin: Alignment.topLeft,
@@ -245,20 +243,20 @@ class _BloodInfoPageState extends State<BloodInfoPage>
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Icon(Icons.bloodtype, size: 60, color: Colors.white),
-            SizedBox(height: 10),
+            const Icon(Icons.bloodtype, size: 60, color: Colors.white),
+            const SizedBox(height: 10),
             Text(
               "Discover Your Blood Type",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               "Learn about compatibility, donation, and medical facts",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 16,
                 color: Colors.white.withOpacity(0.9),
               ),
@@ -277,17 +275,17 @@ class _BloodInfoPageState extends State<BloodInfoPage>
         children: [
           Text(
             "Select Your Blood Type",
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 22,
               fontWeight: FontWeight.bold,
               color: Colors.grey.shade800,
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           GridView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4,
               childAspectRatio: 1.2,
               crossAxisSpacing: 12,
@@ -310,19 +308,19 @@ class _BloodInfoPageState extends State<BloodInfoPage>
     return GestureDetector(
       onTap: () => _selectBloodType(type),
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
           gradient: isSelected
               ? LinearGradient(
-                  colors: [data['color'], data['color'].withOpacity(0.7)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
+            colors: [data['color'], data['color'].withOpacity(0.7)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          )
               : LinearGradient(
-                  colors: [Colors.white, Colors.grey.shade100],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+            colors: [Colors.white, Colors.grey.shade100],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
             color: isSelected ? data['color'] : Colors.grey.shade300,
@@ -330,35 +328,35 @@ class _BloodInfoPageState extends State<BloodInfoPage>
           ),
           boxShadow: isSelected
               ? [
-                  BoxShadow(
-                    color: data['color'].withOpacity(0.3),
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ]
+            BoxShadow(
+              color: data['color'].withOpacity(0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ]
               : [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    blurRadius: 5,
-                    offset: Offset(0, 2),
-                  ),
-                ],
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               type,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: isSelected ? Colors.white : Colors.grey.shade800,
               ),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               "${data['populationPercent']}%",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 12,
                 color: isSelected
                     ? Colors.white.withOpacity(0.8)
@@ -376,8 +374,8 @@ class _BloodInfoPageState extends State<BloodInfoPage>
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        padding: EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [data['color'], data['color'].withOpacity(0.7)],
@@ -389,37 +387,37 @@ class _BloodInfoPageState extends State<BloodInfoPage>
             BoxShadow(
               color: data['color'].withOpacity(0.3),
               blurRadius: 15,
-              offset: Offset(0, 8),
+              offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Icon(Icons.bloodtype, size: 40, color: Colors.white),
+              child: const Icon(Icons.bloodtype, size: 40, color: Colors.white),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Blood Type $selectedBloodType",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     "${data['populationPercent']}% of population",
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                       fontSize: 16,
                       color: Colors.white.withOpacity(0.9),
                     ),
@@ -447,14 +445,14 @@ class _BloodInfoPageState extends State<BloodInfoPage>
               data['info'],
               Colors.blue.shade600,
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             _buildInfoCard(
               "Emergency Info",
               Icons.emergency,
               data['emergencyInfo'],
               Colors.red.shade600,
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             _buildMedicalFactsCard(data['medicalFacts']),
           ],
         ),
@@ -463,13 +461,13 @@ class _BloodInfoPageState extends State<BloodInfoPage>
   }
 
   Widget _buildInfoCard(
-    String title,
-    IconData icon,
-    String content,
-    Color color,
-  ) {
+      String title,
+      IconData icon,
+      String content,
+      Color color,
+      ) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -477,7 +475,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
             blurRadius: 10,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -485,30 +483,30 @@ class _BloodInfoPageState extends State<BloodInfoPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: color.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: color, size: 24),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade800,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   content,
-                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                  style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey.shade600),
                 ),
               ],
             ),
@@ -520,7 +518,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
 
   Widget _buildMedicalFactsCard(List<String> facts) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -528,7 +526,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
             blurRadius: 10,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -538,7 +536,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.green.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10),
@@ -549,10 +547,10 @@ class _BloodInfoPageState extends State<BloodInfoPage>
                   size: 24,
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Text(
                 "Medical Facts",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey.shade800,
@@ -560,15 +558,15 @@ class _BloodInfoPageState extends State<BloodInfoPage>
               ),
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           ...facts.map(
-            (fact) => Padding(
+                (fact) => Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 6),
+                    margin: const EdgeInsets.only(top: 6),
                     width: 6,
                     height: 6,
                     decoration: BoxDecoration(
@@ -576,11 +574,11 @@ class _BloodInfoPageState extends State<BloodInfoPage>
                       shape: BoxShape.circle,
                     ),
                   ),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       fact,
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 14,
                         color: Colors.grey.shade600,
                       ),
@@ -602,7 +600,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -610,7 +608,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
                 blurRadius: 10,
-                offset: Offset(0, 5),
+                offset: const Offset(0, 5),
               ),
             ],
           ),
@@ -619,20 +617,20 @@ class _BloodInfoPageState extends State<BloodInfoPage>
             children: [
               Text(
                 "Blood Compatibility",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey.shade800,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildCompatibilityRow(
                 "Can Donate To",
                 data['canDonateTo'],
                 Icons.volunteer_activism,
                 Colors.green.shade600,
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildCompatibilityRow(
                 "Can Receive From",
                 data['canReceiveFrom'],
@@ -647,61 +645,61 @@ class _BloodInfoPageState extends State<BloodInfoPage>
   }
 
   Widget _buildCompatibilityRow(
-    String title,
-    List<dynamic> types,
-    IconData icon,
-    Color color,
-  ) {
+      String title,
+      List<dynamic> types,
+      IconData icon,
+      Color color,
+      ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: color, size: 20),
         ),
-        SizedBox(width: 12),
+        const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey.shade800,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Wrap(
                 spacing: 8,
                 runSpacing: 4,
                 children: types
                     .map(
                       (type) => Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: color.withOpacity(0.3)),
-                        ),
-                        child: Text(
-                          type.toString(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: color,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: color.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: color.withOpacity(0.3)),
+                    ),
+                    child: Text(
+                      type.toString(),
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: color,
+                        fontWeight: FontWeight.w600,
                       ),
-                    )
+                    ),
+                  ),
+                )
                     .toList(),
               ),
             ],
@@ -718,7 +716,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
@@ -726,7 +724,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
                 blurRadius: 10,
-                offset: Offset(0, 5),
+                offset: const Offset(0, 5),
               ),
             ],
           ),
@@ -735,19 +733,19 @@ class _BloodInfoPageState extends State<BloodInfoPage>
             children: [
               Text(
                 "Donation Information",
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: Colors.grey.shade800,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _buildDonationInfoRow(
                 "Donation Frequency",
                 data['donationFrequency'],
                 Icons.schedule,
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildDonationInfoRow(
                 "Storage Life",
                 data['storageLife'],
@@ -764,21 +762,21 @@ class _BloodInfoPageState extends State<BloodInfoPage>
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: Colors.orange.withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: Colors.orange.shade600, size: 20),
         ),
-        SizedBox(width: 12),
+        const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: Colors.grey.shade700,
@@ -786,7 +784,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
               ),
               Text(
                 value,
-                style: TextStyle(fontSize: 16, color: Colors.grey.shade800),
+                style: GoogleFonts.poppins(fontSize: 16, color: Colors.grey.shade800),
               ),
             ],
           ),
@@ -799,7 +797,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.blue.shade50, Colors.blue.shade100],
@@ -815,10 +813,10 @@ class _BloodInfoPageState extends State<BloodInfoPage>
             Row(
               children: [
                 Icon(Icons.info, color: Colors.blue.shade700, size: 24),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
                   "Did You Know?",
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.blue.shade800,
@@ -826,14 +824,14 @@ class _BloodInfoPageState extends State<BloodInfoPage>
                 ),
               ],
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
               "• One blood donation can save up to 3 lives\n"
-              "• O- donors are called universal donors\n"
-              "• AB+ recipients can receive any blood type\n"
-              "• Blood donation is completely safe and takes about 8-10 minutes\n"
-              "• Your body replaces donated blood within 24-48 hours",
-              style: TextStyle(
+                  "• O- donors are called universal donors\n"
+                  "• AB+ recipients can receive any blood type\n"
+                  "• Blood donation is completely safe and takes about 8-10 minutes\n"
+                  "• Your body replaces donated blood within 24-48 hours",
+              style: GoogleFonts.poppins(
                 fontSize: 14,
                 color: Colors.blue.shade700,
                 height: 1.5,
@@ -850,24 +848,24 @@ class _BloodInfoPageState extends State<BloodInfoPage>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("About Blood Types"),
+          title: Text("About Blood Types", style: GoogleFonts.poppins()),
           content: SingleChildScrollView(
             child: Text(
               "Blood types are determined by the presence or absence of certain antigens on red blood cells. "
-              "The ABO system (A, B, AB, O) and Rh factor (+ or -) are the most important for transfusions.\n\n"
-              "Understanding your blood type is crucial for:\n"
-              "• Safe blood transfusions\n"
-              "• Organ transplants\n"
-              "• Pregnancy planning\n"
-              "• Medical emergencies\n\n"
-              "Regular blood donation helps maintain blood supplies and can save lives in emergencies.",
-              style: TextStyle(fontSize: 14),
+                  "The ABO system (A, B, AB, O) and Rh factor (+ or -) are the most important for transfusions.\n\n"
+                  "Understanding your blood type is crucial for:\n"
+                  "• Safe blood transfusions\n"
+                  "• Organ transplants\n"
+                  "• Pregnancy planning\n"
+                  "• Medical emergencies\n\n"
+                  "Regular blood donation helps maintain blood supplies and can save lives in emergencies.",
+              style: GoogleFonts.poppins(fontSize: 14),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text("Got it"),
+              child: Text("Got it", style: GoogleFonts.poppins()),
             ),
           ],
         );

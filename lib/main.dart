@@ -2,15 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:flutter/services.dart';
-// import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
+import 'api/static_blood_bank_service.dart';
 import 'auth_page.dart';
 import 'bottom_nav_screen.dart';
 import 'firebase_options.dart';
 import 'services/connectivity_service.dart';
 import 'no_internet_screen.dart';
-// import 'api/static_blood_bank_service.dart';
+import 'api/static_blood_bank_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,15 +34,15 @@ Future<void> _initializeApp() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Load and upload blood bank data (only in debug mode)
-  // if (kDebugMode) {
-  //   print(" Debug mode detected - uploading initial data...");
-  //   try {
-  //     await StaticBloodBankService.uploadToFirebase();
-  //     print(" Database updated successfully");
-  //   } catch (e) {
-  //     print(" Database update failed: $e");
-  //   }
-  // }
+  if (kDebugMode) {
+    print(" Debug mode detected - uploading initial data...");
+    try {
+      await StaticBloodBankService.uploadToFirebase();
+      print(" Database updated successfully");
+    } catch (e) {
+      print(" Database update failed: $e");
+    }
+  }
 }
 
 class MyApp extends StatelessWidget {
