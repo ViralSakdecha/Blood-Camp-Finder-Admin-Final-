@@ -10,7 +10,7 @@ import 'firebase_options.dart';
 import 'services/connectivity_service.dart';
 import 'no_internet_screen.dart';
 import 'api/static_blood_bank_service.dart';
-import 'splash_screen.dart'; // Import the new splash screen
+// No longer need to import splash_screen.dart
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,14 +57,15 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         scaffoldBackgroundColor: Colors.grey[50],
       ),
-      // Show the SplashScreen first
-      home: const SplashScreen(),
+      // ✨ FIX: Changed home from SplashScreen() to MainAppWrapper()
+      // This removes the startup animation completely.
+      home: const MainAppWrapper(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-// This new widget will be the entry point after the splash screen
+// This widget is now the entry point after app launch.
 class MainAppWrapper extends StatelessWidget {
   const MainAppWrapper({super.key});
 
@@ -94,6 +95,7 @@ class AuthGate extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           print(" Checking authentication state...");
+          // Show a simple loading indicator while checking auth status.
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
