@@ -16,7 +16,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   List<Map<String, dynamic>> _bloodbanks = [];
   int _currentIndex = 0;
   String userName = "";
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _initializeAnimations();
     fetchDataAndSortByLocation();
   }
@@ -62,10 +64,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _fadeController.dispose();
     _slideController.dispose();
     _pageController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      fetchDataAndSortByLocation();
+    }
   }
 
   Future<Position> _determinePosition() async {
@@ -96,10 +106,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       Position position = await _determinePosition();
       final uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid != null) {
-        final userDoc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(uid)
-            .get();
+        final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
         if (mounted) {
           setState(() {
             userName = userDoc.data()?['name'] ?? 'User';
@@ -107,9 +115,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         }
       }
 
-      final snapshot = await FirebaseFirestore.instance
-          .collection('bloodbanks')
-          .get();
+      final snapshot =
+      await FirebaseFirestore.instance.collection('bloodbanks').get();
       List<Map<String, dynamic>> banks = snapshot.docs.map((doc) {
         final data = doc.data();
         final lat = data['latitude'] ?? 0.0;
@@ -128,6 +135,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           'latitude': lat,
           'longitude': lon,
           'distance': distanceInMeters / 1000,
+          'image': data['image'] ?? 'assets/images/default_bloodbank.jpg'
         };
       }).toList();
 
@@ -178,9 +186,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return;
       }
 
-      final int pageViewItemCount = _bloodbanks.length > 10
-          ? 10
-          : _bloodbanks.length;
+      final int pageViewItemCount =
+      _bloodbanks.length > 10 ? 10 : _bloodbanks.length;
       if (pageViewItemCount == 0) return;
 
       final nextIndex = (_currentIndex + 1) % pageViewItemCount;
@@ -195,6 +202,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget _buildBloodBankCard(Map<String, dynamic> bank) {
     String distance = bank['distance']?.toStringAsFixed(1) ?? '...';
+    String imagePath = bank['image'] ??
+        'assets/images/default_bloodbank.jpg'; // Fallback image
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -224,24 +234,47 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ClipRRect(
-              borderRadius: BorderRadius.vertical(
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(20),
               ),
               child: SizedBox(
                 height: 140,
                 width: double.infinity,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(Icons.bloodtype, size: 60, color: Colors.white),
-                  ),
+                child: Image.network(
+                  imagePath,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(Icons.bloodtype,
+                            size: 60, color: Colors.white),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: Center(
+                        child: Icon(Icons.bloodtype,
+                            size: 60, color: Colors.white),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -500,7 +533,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               const SizedBox(height: 8),
               Text(
                 bank['address'],
-                style: GoogleFonts.poppins(color: const Color(0xFF9E9E9E), fontSize: 14),
+                style: GoogleFonts.poppins(
+                    color: const Color(0xFF9E9E9E), fontSize: 14),
               ),
               const SizedBox(height: 4),
               Text(
@@ -539,9 +573,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final int pageViewItemCount = _bloodbanks.length > 10
-        ? 10
-        : _bloodbanks.length;
+    final int pageViewItemCount =
+    _bloodbanks.length > 10 ? 10 : _bloodbanks.length;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
@@ -601,11 +634,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Text(
                 "Please enable location services and try again.",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(fontSize: 16, color: Colors.grey),
+                style: GoogleFonts.poppins(
+                    fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 30),
               ElevatedButton.icon(
-                icon: const Icon(Icons.refresh, color: Colors.white),
+                icon:
+                const Icon(Icons.refresh, color: Colors.white),
                 label: Text(
                   "Retry",
                   style: GoogleFonts.poppins(color: Colors.white),
@@ -667,7 +702,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         onPageChanged: (index) =>
                             setState(() => _currentIndex = index),
                         itemBuilder: (context, index) =>
-                            _buildBloodBankCard(_bloodbanks[index]),
+                            _buildBloodBankCard(
+                                _bloodbanks[index]),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -696,7 +732,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
                 const SizedBox(height: 32),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Nearest To You",

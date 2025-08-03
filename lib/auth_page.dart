@@ -310,7 +310,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage = switch (e.code) {
-        'email-already-in-use' => "An account with this email already exists.",
+        'email-already-in-use' =>
+        "An account with this email already exists.",
         'invalid-email' => "Invalid email format.",
         'weak-password' => "Password is too weak.",
         'network-request-failed' => "No internet connection.",
@@ -335,7 +336,6 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
     Widget? suffixIcon,
     int maxLines = 1,
   }) {
-    // ✨ OPTIMIZATION: Extracted box decoration to a constant.
     const boxDecoration = BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -397,60 +397,69 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
     required Function(String?) onChanged,
     IconData? icon,
   }) {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.poppins(
-          color: Colors.grey.shade500,
-          fontSize: 16,
-        ),
-        prefixIcon: icon != null
-            ? Container(
-          margin: const EdgeInsets.all(12),
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFF6B6B).withOpacity(0.1),
-            shape: BoxShape.circle,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(255, 107, 107, 0.1),
+            blurRadius: 15,
+            offset: Offset(0, 5),
           ),
-          child: Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
-        )
-            : null,
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFFF6B6B), width: 2),
-        ),
+        ],
       ),
-      value: value,
-      items: items.map((item) {
-        return DropdownMenuItem(
-          value: item,
-          child: Text(
-            item,
-            style: GoogleFonts.poppins(
-              color: const Color(0xFF2E2E2E),
-              fontSize: 16,
+      child: DropdownButtonFormField<String>(
+        decoration: InputDecoration(
+          hintText: label,
+          hintStyle: GoogleFonts.poppins(color: Colors.grey.shade400),
+          prefixIcon: icon != null
+              ? Container(
+            margin: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFF6B6B).withOpacity(0.1),
+              shape: BoxShape.circle,
             ),
+            child:
+            Icon(icon, color: const Color(0xFFFF6B6B), size: 20),
+          )
+              : null,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
           ),
-        );
-      }).toList(),
-      onChanged: onChanged,
-      dropdownColor: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      style: GoogleFonts.poppins(color: const Color(0xFF2E2E2E), fontSize: 16),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide:
+            const BorderSide(color: Color(0xFFFF6B6B), width: 2),
+          ),
+          contentPadding:
+          const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
+        ),
+        value: value,
+        items: items.map((item) {
+          return DropdownMenuItem(
+            value: item,
+            child: Text(
+              item,
+              style: GoogleFonts.poppins(
+                color: const Color(0xFF2E2E2E),
+                fontSize: 16,
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: onChanged,
+        dropdownColor: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        style:
+        GoogleFonts.poppins(color: const Color(0xFF2E2E2E), fontSize: 16),
+      ),
     );
   }
 
@@ -468,9 +477,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                   duration: const Duration(milliseconds: 500),
                   style: GoogleFonts.poppins(
                     fontSize: 18,
-                    fontWeight: _currentPage == 0
-                        ? FontWeight.bold
-                        : FontWeight.normal,
+                    fontWeight:
+                    _currentPage == 0 ? FontWeight.bold : FontWeight.normal,
                     color: _currentPage == 0
                         ? const Color(0xFFFF6B6B)
                         : const Color(0xFF9E9E9E),
@@ -484,9 +492,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                   duration: const Duration(milliseconds: 500),
                   style: GoogleFonts.poppins(
                     fontSize: 18,
-                    fontWeight: _currentPage == 1
-                        ? FontWeight.bold
-                        : FontWeight.normal,
+                    fontWeight:
+                    _currentPage == 1 ? FontWeight.bold : FontWeight.normal,
                     color: _currentPage == 1
                         ? const Color(0xFFFF6B6B)
                         : const Color(0xFF9E9E9E),
@@ -610,7 +617,6 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                       _buildAuthToggle(),
                       const SizedBox(height: 30),
                       SizedBox(
-                        // ✨ OPTIMIZATION: Set a more adaptive height
                         height: MediaQuery.of(context).size.height * 0.7,
                         child: PageView(
                           controller: _pageController,
@@ -637,7 +643,6 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
 
   Widget _buildLoginForm() {
     return SingleChildScrollView(
-      // ✨ OPTIMIZATION: Added physics for better scrolling on iOS
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
@@ -674,7 +679,6 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
 
   Widget _buildRegisterForm() {
     return SingleChildScrollView(
-      // ✨ OPTIMIZATION: Added physics for better scrolling on iOS
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
@@ -722,7 +726,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
             icon: Icons.bloodtype_outlined,
             value: _selectedBloodGroup,
             items: _bloodGroupOptions,
-            onChanged: (value) => setState(() => _selectedBloodGroup = value),
+            onChanged: (value) =>
+                setState(() => _selectedBloodGroup = value),
           ),
           const SizedBox(height: 15),
           _buildInputField(
@@ -745,7 +750,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                 color: const Color(0xFFFF6B6B),
               ),
               onPressed: () => setState(
-                    () => _obscureRegisterPassword = !_obscureRegisterPassword,
+                    () =>
+                _obscureRegisterPassword = !_obscureRegisterPassword,
               ),
             ),
           ),
@@ -763,7 +769,8 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
                 color: const Color(0xFFFF6B6B),
               ),
               onPressed: () => setState(
-                    () => _obscureConfirmPassword = !_obscureConfirmPassword,
+                    () =>
+                _obscureConfirmPassword = !_obscureConfirmPassword,
               ),
             ),
           ),

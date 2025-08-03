@@ -34,7 +34,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
     'Other',
   ];
   final List<String> _bloodGroups = [
-    'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-',
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
   ];
 
   @override
@@ -88,7 +95,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final eighteenYearsAgo = DateTime(DateTime.now().year - 18, DateTime.now().month, DateTime.now().day);
+    final eighteenYearsAgo = DateTime(
+        DateTime.now().year - 18, DateTime.now().month, DateTime.now().day);
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate ?? eighteenYearsAgo,
@@ -139,7 +147,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Profile updated successfully", style: GoogleFonts.poppins()),
+            content:
+            Text("Profile updated successfully", style: GoogleFonts.poppins()),
             backgroundColor: Colors.green,
             behavior: SnackBarBehavior.floating,
           ),
@@ -150,7 +159,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Failed to update profile: $e", style: GoogleFonts.poppins()),
+            content:
+            Text("Failed to update profile: $e", style: GoogleFonts.poppins()),
             backgroundColor: Colors.red,
             behavior: SnackBarBehavior.floating,
           ),
@@ -214,7 +224,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 controller: _nameController,
                 label: "Full Name",
                 icon: Icons.person,
-                validator: (value) => value == null || value.isEmpty
+                validator: (value) =>
+                value == null || value.isEmpty
                     ? "Full Name is required"
                     : null,
               ),
@@ -290,7 +301,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 label: "Address",
                 icon: Icons.location_on,
                 maxLines: 3,
-                validator: (value) => value == null || value.isEmpty
+                validator: (value) =>
+                value == null || value.isEmpty
                     ? "Address is required"
                     : null,
               ),
@@ -336,7 +348,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
@@ -350,7 +363,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  // OPTIMIZATION: Added const constructors where possible.
   Widget _buildTextFormField({
     required String label,
     required IconData icon,
@@ -387,53 +399,68 @@ class _EditProfilePageState extends State<EditProfilePage> {
     required ValueChanged<String?>? onChanged,
     bool enabled = true,
   }) {
-    return DropdownButtonFormField<String>(
-      value: value,
-      items: items.map((item) {
-        return DropdownMenuItem(
-          value: item,
-          child: Text(item, style: GoogleFonts.poppins()),
-        );
-      }).toList(),
-      onChanged: enabled ? onChanged : null,
-      dropdownColor: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.poppins(
-            color: enabled ? Colors.grey.shade700 : Colors.grey.shade500),
-        prefixIcon: Container(
-          margin: const EdgeInsets.all(12),
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: enabled
-                ? const Color(0xFFFF6B6B).withOpacity(0.1)
-                : Colors.grey.shade300,
-            shape: BoxShape.circle,
+    return Container(
+      decoration: BoxDecoration(
+        color: enabled ? Colors.white : Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFFF6B6B).withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
-          child: Icon(icon,
-              color: enabled ? const Color(0xFFFF6B6B) : Colors.grey.shade400,
-              size: 20),
-        ),
-        filled: true,
-        fillColor: enabled ? Colors.white : Colors.grey.shade200,
-        contentPadding:
-        const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFFF6B6B), width: 2.0),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+        ],
+      ),
+      child: DropdownButtonFormField<String>(
+        value: value,
+        items: items.map((item) {
+          return DropdownMenuItem(
+            value: item,
+            child: Text(item, style: GoogleFonts.poppins()),
+          );
+        }).toList(),
+        onChanged: enabled ? onChanged : null,
+        dropdownColor: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: GoogleFonts.poppins(
+              color: enabled ? Colors.grey.shade700 : Colors.grey.shade500),
+          prefixIcon: Container(
+            margin: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: enabled
+                  ? const Color(0xFFFF6B6B).withOpacity(0.1)
+                  : Colors.grey.shade300,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon,
+                color:
+                enabled ? const Color(0xFFFF6B6B) : Colors.grey.shade400,
+                size: 20),
+          ),
+          filled: true,
+          fillColor: Colors.transparent,
+          contentPadding:
+          const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide:
+            const BorderSide(color: Color(0xFFFF6B6B), width: 2.0),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide.none,
+          ),
         ),
       ),
     );
@@ -449,7 +476,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           color: enabled ? const Color(0xFFFF6B6B) : Colors.grey.shade400),
       filled: true,
       fillColor: enabled ? Colors.white : Colors.grey.shade200,
-      contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      contentPadding:
+      const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: Colors.grey.shade300),

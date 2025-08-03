@@ -257,7 +257,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
             Text(
               "Learn about compatibility, donation, and medical facts",
               style: GoogleFonts.poppins(
-                fontSize: 16,
+                fontSize: 14,
                 color: Colors.white.withOpacity(0.9),
               ),
             ),

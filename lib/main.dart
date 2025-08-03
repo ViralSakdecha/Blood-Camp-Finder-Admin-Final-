@@ -2,16 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
-import 'api/static_blood_bank_service.dart';
 import 'auth_page.dart';
 import 'bottom_nav_screen.dart';
 import 'firebase_options.dart';
 import 'services/connectivity_service.dart';
 import 'no_internet_screen.dart';
 import 'api/static_blood_bank_service.dart';
+import 'splash_screen.dart'; // Import the new splash screen
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +32,8 @@ Future<void> _initializeApp() async {
   print("🔥 Initializing Firebase...");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Load and upload blood bank data (only in debug mode)
+  // This is commented out to ensure fast app startup.
+  /*
   if (kDebugMode) {
     print(" Debug mode detected - uploading initial data...");
     try {
@@ -43,6 +43,7 @@ Future<void> _initializeApp() async {
       print(" Database update failed: $e");
     }
   }
+  */
 }
 
 class MyApp extends StatelessWidget {
@@ -56,18 +57,29 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         scaffoldBackgroundColor: Colors.grey[50],
       ),
-      home: StreamBuilder<ConnectivityResult>(
-        stream: ConnectivityService.instance.connectivityStream,
-        initialData: ConnectivityResult.mobile,
-        builder: (context, snapshot) {
-          if (snapshot.data == ConnectivityResult.none) {
-            print(" Offline mode detected");
-            return const NoInternetScreen();
-          }
-          return const AuthGate();
-        },
-      ),
+      // Show the SplashScreen first
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+// This new widget will be the entry point after the splash screen
+class MainAppWrapper extends StatelessWidget {
+  const MainAppWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<ConnectivityResult>(
+      stream: ConnectivityService.instance.connectivityStream,
+      initialData: ConnectivityResult.mobile,
+      builder: (context, snapshot) {
+        if (snapshot.data == ConnectivityResult.none) {
+          print(" Offline mode detected");
+          return const NoInternetScreen();
+        }
+        return const AuthGate();
+      },
     );
   }
 }
@@ -80,7 +92,6 @@ class AuthGate extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        // Show a loading indicator while waiting for Firebase to initialize
         if (snapshot.connectionState == ConnectionState.waiting) {
           print(" Checking authentication state...");
           return const Scaffold(
@@ -88,13 +99,10 @@ class AuthGate extends StatelessWidget {
           );
         }
 
-        // If the snapshot has data, a user is logged in
         if (snapshot.hasData) {
           print(" User logged in: ${snapshot.data!.email}");
           return const BottomNavScreen();
-        }
-        // Otherwise, no user is logged in
-        else {
+        } else {
           print(" No user logged in - showing auth page");
           return const AuthPage();
         }
