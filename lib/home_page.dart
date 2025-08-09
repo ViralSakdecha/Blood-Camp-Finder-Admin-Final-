@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'animation_manager.dart';
 import 'blood_info_page.dart';
 import 'faq_page.dart';
@@ -19,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   List<Map<String, dynamic>> _bloodbanks = [];
+  List<Map<String, dynamic>> _todaysCamps = [];
   int _currentIndex = 0;
   String userName = "";
   bool isLoading = true;
@@ -135,15 +137,21 @@ class _HomePageState extends State<HomePage>
           'latitude': lat,
           'longitude': lon,
           'distance': distanceInMeters / 1000,
-          'image': data['image'] ?? 'assets/images/default_bloodbank.jpg'
+          'start_date': data['start_date'],
         };
       }).toList();
 
       banks.sort((a, b) => a['distance'].compareTo(b['distance']));
 
+      final todayString = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      List<Map<String, dynamic>> todaysCamps = banks.where((bank) {
+        return bank['start_date'] == todayString;
+      }).toList();
+
       if (mounted) {
         setState(() {
           _bloodbanks = banks;
+          _todaysCamps = todaysCamps;
           isLoading = false;
         });
 
@@ -202,8 +210,6 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildBloodBankCard(Map<String, dynamic> bank) {
     String distance = bank['distance']?.toStringAsFixed(1) ?? '...';
-    String imagePath = bank['image'] ??
-        'assets/images/default_bloodbank.jpg'; // Fallback image
 
     return GestureDetector(
       onTap: () {
@@ -216,138 +222,99 @@ class _HomePageState extends State<HomePage>
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
-            colors: [Colors.white, Color(0xFFF8F9FA)],
+            colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFFF6B6B).withOpacity(0.15),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
+              color: const Color(0xFFFF6B6B).withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
-              child: SizedBox(
-                height: 140,
-                width: double.infinity,
-                child: Image.network(
-                  imagePath,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return const DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(Icons.bloodtype,
-                            size: 60, color: Colors.white),
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return const DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Color(0xFFFF8A95), Color(0xFFFF6B6B)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(Icons.bloodtype,
-                            size: 60, color: Colors.white),
-                      ),
-                    );
-                  },
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.bloodtype, color: Colors.white, size: 40),
+                const SizedBox(height: 12),
+                Text(
+                  bank['name'],
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    bank['name'],
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF2E2E2E),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      size: 16,
+                      color: Colors.white70,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on,
-                        size: 14,
-                        color: Color(0xFFFF6B6B),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          bank['address'],
-                          style: GoogleFonts.poppins(
-                            color: const Color(0xFF9E9E9E),
-                            fontSize: 14,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.phone,
-                            size: 14,
-                            color: Color(0xFFFF6B6B),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            bank['contact'],
-                            style: GoogleFonts.poppins(
-                              color: const Color(0xFF9E9E9E),
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        '$distance km away',
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        bank['address'],
                         style: GoogleFonts.poppins(
-                          color: const Color(0xFFFF6B6B),
-                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                           fontSize: 14,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.phone,
+                          size: 16,
+                          color: Colors.white70,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          bank['contact'],
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      '$distance km away',
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -482,7 +449,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _buildNearbyBankCard(Map<String, dynamic> bank) {
+  Widget _buildTodaysCampCard(Map<String, dynamic> bank) {
     String distance = bank['distance']?.toStringAsFixed(1) ?? '...';
     return GestureDetector(
       onTap: () {
@@ -639,8 +606,7 @@ class _HomePageState extends State<HomePage>
               ),
               const SizedBox(height: 30),
               ElevatedButton.icon(
-                icon:
-                const Icon(Icons.refresh, color: Colors.white),
+                icon: const Icon(Icons.refresh, color: Colors.white),
                 label: Text(
                   "Retry",
                   style: GoogleFonts.poppins(color: Colors.white),
@@ -694,8 +660,9 @@ class _HomePageState extends State<HomePage>
                 const SizedBox(height: 24),
                 Column(
                   children: [
+                    // ✨ FIX APPLIED HERE
                     SizedBox(
-                      height: 320,
+                      height: 220, // Reduced height for the new card design
                       child: PageView.builder(
                         controller: _pageController,
                         itemCount: pageViewItemCount,
@@ -736,7 +703,7 @@ class _HomePageState extends State<HomePage>
                   MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Nearest To You",
+                      "Camps Happening Today",
                       style: GoogleFonts.poppins(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -746,10 +713,28 @@ class _HomePageState extends State<HomePage>
                   ],
                 ),
                 const SizedBox(height: 16),
-                Column(
-                  children: _bloodbanks
-                      .take(3)
-                      .map((bank) => _buildNearbyBankCard(bank))
+                _todaysCamps.isEmpty
+                    ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 32.0),
+                    child: Column(
+                      children: [
+                        Icon(Icons.event_busy_outlined, size: 50, color: Colors.grey[400]),
+                        const SizedBox(height: 16),
+                        Text(
+                          "No camps scheduled for today.",
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                    : Column(
+                  children: _todaysCamps
+                      .map((bank) => _buildTodaysCampCard(bank))
                       .toList(),
                 ),
               ],
