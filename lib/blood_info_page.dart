@@ -253,18 +253,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
                 color: Colors.white,
               ),
             ),
-            const SizedBox(height: 5),
-            // ✨ FIX APPLIED HERE
-            Text(
-              "Learn about compatibility, donation, and medical facts",
-              style: GoogleFonts.poppins(
-                fontSize: 13.5, // Slightly reduced font size
-                color: Colors.white.withOpacity(0.9),
-              ),
-              maxLines: 1, // Ensures text stays on a single line
-              overflow: TextOverflow.ellipsis, // Handles rare overflow cases
-              textAlign: TextAlign.center,
-            ),
+            // ✨ LINE REMOVED FROM HERE
           ],
         ),
       ),
@@ -511,6 +500,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
                 Text(
                   content,
                   style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey.shade600),
+                  textAlign: TextAlign.justify,
                 ),
               ],
             ),
@@ -840,6 +830,7 @@ class _BloodInfoPageState extends State<BloodInfoPage>
                 color: Colors.blue.shade700,
                 height: 1.5,
               ),
+              textAlign: TextAlign.justify,
             ),
           ],
         ),

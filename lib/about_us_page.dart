@@ -194,7 +194,8 @@ class _AboutUsPageState extends State<AboutUsPage>
                 const SizedBox(height: 8),
                 Text(
                   "The developers behind the project",
-                  style: GoogleFonts.poppins(fontSize: 16, color: const Color(0xFF9E9E9E)),
+                  style: GoogleFonts.poppins(
+                      fontSize: 16, color: const Color(0xFF9E9E9E)),
                 ),
                 const SizedBox(height: 20),
 
@@ -292,6 +293,8 @@ class _AboutUsPageState extends State<AboutUsPage>
                     color: const Color(0xFF666666),
                     height: 1.5,
                   ),
+                  // ✨ FIX APPLIED HERE
+                  textAlign: TextAlign.justify,
                 ),
               ],
             ),
@@ -433,6 +436,8 @@ class _AboutUsPageState extends State<AboutUsPage>
               color: Colors.white.withOpacity(0.9),
               height: 1.5,
             ),
+            // ✨ FIX APPLIED HERE
+            textAlign: TextAlign.justify,
           ),
         ],
       ),
@@ -493,7 +498,8 @@ class _AboutUsPageState extends State<AboutUsPage>
             const SizedBox(height: 20),
             Text(
               "Connect with me:",
-              style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
+              style: GoogleFonts.poppins(
+                  fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Row(

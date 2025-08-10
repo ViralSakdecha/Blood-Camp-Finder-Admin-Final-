@@ -38,6 +38,7 @@
     <application
         android:label="Blood Camp Finder"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">

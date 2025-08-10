@@ -82,7 +82,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
         ),
         title: Text(
           "FAQs & Blood Donation Guide",
-          style: GoogleFonts.poppins( // 👈 Applied font
+          style: GoogleFonts.poppins(
+            // 👈 Applied font
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -155,7 +156,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                           children: [
                             Text(
                               "Got Questions?",
-                              style: GoogleFonts.poppins( // 👈 Applied font
+                              style: GoogleFonts.poppins(
+                                // 👈 Applied font
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -164,7 +166,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                             const SizedBox(height: 8),
                             Text(
                               "Everything you need to know about blood donation",
-                              style: GoogleFonts.poppins( // 👈 Applied font
+                              style: GoogleFonts.poppins(
+                                // 👈 Applied font
                                 fontSize: 16,
                                 color: Colors.white70,
                               ),
@@ -178,7 +181,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                 const SizedBox(height: 32),
                 Text(
                   "Frequently Asked Questions",
-                  style: GoogleFonts.poppins( // 👈 Applied font
+                  style: GoogleFonts.poppins(
+                    // 👈 Applied font
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF2E2E2E),
@@ -187,7 +191,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                 const SizedBox(height: 8),
                 Text(
                   "Tap on any question to learn more",
-                  style: GoogleFonts.poppins( // 👈 Applied font
+                  style: GoogleFonts.poppins(
+                    // 👈 Applied font
                     fontSize: 16,
                     color: const Color(0xFF9E9E9E),
                   ),
@@ -264,9 +269,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                     ),
                     child: Icon(
                       faq['icon'] as IconData,
-                      color: isExpanded
-                          ? Colors.white
-                          : const Color(0xFFFF6B6B),
+                      color:
+                      isExpanded ? Colors.white : const Color(0xFFFF6B6B),
                       size: 24,
                     ),
                   ),
@@ -277,7 +281,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                       children: [
                         Text(
                           faq['question'] as String,
-                          style: GoogleFonts.poppins( // 👈 Applied font
+                          style: GoogleFonts.poppins(
+                            // 👈 Applied font
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: isExpanded
@@ -289,7 +294,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                           const SizedBox(height: 4),
                           Text(
                             faq['subtitle'] as String,
-                            style: GoogleFonts.poppins( // 👈 Applied font
+                            style: GoogleFonts.poppins(
+                              // 👈 Applied font
                               fontSize: 14,
                               color: const Color(0xFF9E9E9E),
                             ),
@@ -331,11 +337,14 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                   ),
                   Text(
                     faq['answer'] as String,
-                    style: GoogleFonts.poppins( // 👈 Applied font
+                    style: GoogleFonts.poppins(
+                      // 👈 Applied font
                       fontSize: 15,
                       color: const Color(0xFF666666),
                       height: 1.5,
                     ),
+                    // ✨ FIX APPLIED HERE
+                    textAlign: TextAlign.justify,
                   ),
                   if (faq['tips'] != null) ...[
                     const SizedBox(height: 16),
@@ -360,7 +369,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                               const SizedBox(width: 8),
                               Text(
                                 "Pro Tips:",
-                                style: GoogleFonts.poppins( // 👈 Applied font
+                                style: GoogleFonts.poppins(
+                                  // 👈 Applied font
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFFFF6B6B),
@@ -377,7 +387,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                                 children: [
                                   Text(
                                     "• ",
-                                    style: GoogleFonts.poppins( // 👈 Applied font
+                                    style: GoogleFonts.poppins(
+                                      // 👈 Applied font
                                       color: const Color(0xFFFF6B6B),
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -385,7 +396,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                                   Expanded(
                                     child: Text(
                                       tip,
-                                      style: GoogleFonts.poppins( // 👈 Applied font
+                                      style: GoogleFonts.poppins(
+                                        // 👈 Applied font
                                         fontSize: 14,
                                         color: const Color(0xFF666666),
                                       ),
@@ -449,7 +461,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                   children: [
                     Text(
                       "Emergency Blood Request",
-                      style: GoogleFonts.poppins( // 👈 Applied font
+                      style: GoogleFonts.poppins(
+                        // 👈 Applied font
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF2E2E2E),
@@ -458,7 +471,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                     const SizedBox(height: 4),
                     Text(
                       "Need blood urgently? Contact these numbers",
-                      style: GoogleFonts.poppins( // 👈 Applied font
+                      style: GoogleFonts.poppins(
+                        // 👈 Applied font
                         fontSize: 14,
                         color: const Color(0xFF9E9E9E),
                       ),
@@ -482,7 +496,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                     children: [
                       Text(
                         "National Helpline",
-                        style: GoogleFonts.poppins( // 👈 Applied font
+                        style: GoogleFonts.poppins(
+                          // 👈 Applied font
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFFFF6B6B),
@@ -491,7 +506,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                       const SizedBox(height: 4),
                       Text(
                         "1910",
-                        style: GoogleFonts.poppins( // 👈 Applied font
+                        style: GoogleFonts.poppins(
+                          // 👈 Applied font
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF2E2E2E),
@@ -513,7 +529,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                     children: [
                       Text(
                         "Blood Bank",
-                        style: GoogleFonts.poppins( // 👈 Applied font
+                        style: GoogleFonts.poppins(
+                          // 👈 Applied font
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: const Color(0xFFFF6B6B),
@@ -522,7 +539,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
                       const SizedBox(height: 4),
                       Text(
                         "104",
-                        style: GoogleFonts.poppins( // 👈 Applied font
+                        style: GoogleFonts.poppins(
+                          // 👈 Applied font
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF2E2E2E),
@@ -578,7 +596,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
               Expanded(
                 child: Text(
                   "Be a Hero, Save Lives",
-                  style: GoogleFonts.poppins( // 👈 Applied font
+                  style: GoogleFonts.poppins(
+                    // 👈 Applied font
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -590,7 +609,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
           const SizedBox(height: 16),
           Text(
             "Every blood donation can save up to 3 lives. Your contribution makes a difference in someone's life. Thank you for being a hero!",
-            style: GoogleFonts.poppins( // 👈 Applied font
+            style: GoogleFonts.poppins(
+              // 👈 Applied font
               fontSize: 16,
               color: Colors.white.withOpacity(0.9),
               height: 1.5,
@@ -624,7 +644,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
             const SizedBox(width: 12),
             Text(
               "About Blood Donation",
-              style: GoogleFonts.poppins( // 👈 Applied font
+              style: GoogleFonts.poppins(
+                // 👈 Applied font
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -640,7 +661,8 @@ class _FAQPageState extends State<FAQPage> with TickerProviderStateMixin {
             onPressed: () => Navigator.pop(context),
             child: Text(
               "Got it",
-              style: GoogleFonts.poppins( // 👈 Applied font
+              style: GoogleFonts.poppins(
+                // 👈 Applied font
                 color: const Color(0xFFFF6B6B),
                 fontWeight: FontWeight.bold,
               ),
